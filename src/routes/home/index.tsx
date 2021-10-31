@@ -11,7 +11,7 @@ const Home: FunctionalComponent = () => {
       <p>この下はHogeFugaコンポーネント</p>
       <HogeFuga />
       <p>この下はButtonコンポーネント</p>
-      {/* <Button variant="contained">Button</Button> */}
+      <Button variant="contained">Button</Button>
       <p>test 終わり</p>
     </div>
   );
