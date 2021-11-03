@@ -9,6 +9,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import TextField from "@mui/material/TextField";
+import Checkbox from "@mui/material/Checkbox";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -59,6 +61,8 @@ export default function Home() {
     setAlignment(newAlignment);
   };
 
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
   return (
     <div>
       <Box sx={{ width: "100%" }}>
@@ -102,16 +106,53 @@ export default function Home() {
                 4
               </ToggleButton>
             </ToggleButtonGroup>
+            <div>
+              <Typography>1分の駐屯数</Typography>
+              <TextField
+                id="outlined-number"
+                label="Number"
+                type="number"
+                defaultValue="38"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
           </AccordionDetails>
         </Accordion>
         <TabPanel value={value} index={0}>
-          傾国のおにぎり計算エリア
+          <p>傾国のおにぎり計算エリア</p>
+          <div>
+            守る時間
+            <TextField
+              id="outlined-number"
+              label="Number"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            分
+            <TextField
+              id="outlined-number"
+              label="Number"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            秒
+          </div>
+          <div>
+            <Checkbox {...label} />
+            今から終了まで
+          </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          群雄のおにぎり計算エリア
+          <p>群雄のおにぎり計算エリア</p>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          おにぎり一覧表を表示
+          <p>おにぎり一覧表を表示</p>
         </TabPanel>
       </Box>
     </div>
