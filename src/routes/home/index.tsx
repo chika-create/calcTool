@@ -1,4 +1,5 @@
 import * as React from "react";
+import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -51,23 +52,12 @@ function a11yProps(index: number) {
   };
 }
 
-export default function Home() {
+export default function Home(): {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const [alignment, setAlignment] = React.useState<string | null>("left");
-
-  const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
-  ) => {
-    setAlignment(newAlignment);
-  };
-
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -92,12 +82,7 @@ export default function Home() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>赤城 騎馬数（デッキ人数）</Typography>
-          <ToggleButtonGroup
-            value={alignment}
-            exclusive
-            onChange={handleAlignment}
-            aria-label="text alignment"
-          >
+          <ToggleButtonGroup value="test" aria-label="text alignment" exclusive>
             <ToggleButton value="left" aria-label="left aligned">
               1
             </ToggleButton>
@@ -128,7 +113,12 @@ export default function Home() {
 
       <TabPanel value={value} index={0}>
         <Typography>傾国のおにぎり計算エリア</Typography>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+          }}
+        >
           <Typography>守る時間</Typography>
           <TextField
             id="outlined-number"
@@ -138,7 +128,7 @@ export default function Home() {
               shrink: true,
             }}
           />
-          分
+          <Typography>分</Typography>
           <TextField
             id="outlined-number"
             label="Number"
@@ -147,7 +137,7 @@ export default function Home() {
               shrink: true,
             }}
           />
-          秒
+          <Typography>秒</Typography>
         </Box>
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
@@ -160,6 +150,7 @@ export default function Home() {
         <Typography>おにぎり一覧表を表示</Typography>
       </TabPanel>
 
+      <Typography>城種別</Typography>
       <ButtonGroup
         variant="contained"
         aria-label="outlined primary button group"
@@ -168,6 +159,7 @@ export default function Home() {
         <Button>青城</Button>
         <Button>金城</Button>
       </ButtonGroup>
+      <Button>おにぎり計算</Button>
 
       <Box>
         <Box>
