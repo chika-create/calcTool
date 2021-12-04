@@ -1,4 +1,5 @@
 import * as React from "react";
+import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -58,15 +59,6 @@ export default function Home() {
     setValue(newValue);
   };
 
-  const [alignment, setAlignment] = React.useState<string | null>("left");
-
-  const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
-  ) => {
-    setAlignment(newAlignment);
-  };
-
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
@@ -91,27 +83,38 @@ export default function Home() {
           <Typography>初期設定</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>赤城 騎馬数（デッキ人数）</Typography>
-          <ToggleButtonGroup
-            value={alignment}
-            exclusive
-            onChange={handleAlignment}
-            aria-label="text alignment"
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, auto 1fr)",
+            }}
           >
-            <ToggleButton value="left" aria-label="left aligned">
-              1
-            </ToggleButton>
-            <ToggleButton value="center" aria-label="centered">
-              2
-            </ToggleButton>
-            <ToggleButton value="right" aria-label="right aligned">
-              3
-            </ToggleButton>
-            <ToggleButton value="justify" aria-label="justified">
-              4
-            </ToggleButton>
-          </ToggleButtonGroup>
-          <Box>
+            <Typography>赤城</Typography>
+            <ToggleButtonGroup
+              value="test"
+              aria-label="text alignment"
+              exclusive
+            >
+              <ToggleButton value="left" aria-label="left aligned">
+                1
+              </ToggleButton>
+              <ToggleButton value="center" aria-label="centered">
+                2
+              </ToggleButton>
+              <ToggleButton value="right" aria-label="right aligned">
+                3
+              </ToggleButton>
+              <ToggleButton value="justify" aria-label="justified">
+                4
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, auto 1fr)",
+            }}
+          >
             <Typography>1分の駐屯数</Typography>
             <TextField
               id="outlined-number"
@@ -128,7 +131,12 @@ export default function Home() {
 
       <TabPanel value={value} index={0}>
         <Typography>傾国のおにぎり計算エリア</Typography>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+          }}
+        >
           <Typography>守る時間</Typography>
           <TextField
             id="outlined-number"
@@ -138,7 +146,7 @@ export default function Home() {
               shrink: true,
             }}
           />
-          分
+          <Typography>分</Typography>
           <TextField
             id="outlined-number"
             label="Number"
@@ -147,7 +155,7 @@ export default function Home() {
               shrink: true,
             }}
           />
-          秒
+          <Typography>秒</Typography>
         </Box>
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
@@ -160,17 +168,31 @@ export default function Home() {
         <Typography>おにぎり一覧表を表示</Typography>
       </TabPanel>
 
-      <ButtonGroup
-        variant="contained"
-        aria-label="outlined primary button group"
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+        }}
       >
-        <Button>赤城</Button>
-        <Button>青城</Button>
-        <Button>金城</Button>
-      </ButtonGroup>
+        <Typography>城種別</Typography>
+        <ButtonGroup
+          variant="contained"
+          aria-label="outlined primary button group"
+        >
+          <Button>赤城</Button>
+          <Button>青城</Button>
+          <Button>金城</Button>
+        </ButtonGroup>
+      </Box>
+      <Button>おにぎり計算</Button>
 
       <Box>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr auto",
+          }}
+        >
           <Typography>積み切り駐屯</Typography>
           <Typography>840</Typography>
           <Tooltip title="ContentCopyIcon">
@@ -179,7 +201,12 @@ export default function Home() {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr auto",
+          }}
+        >
           <Typography>再駐屯込み</Typography>
           <Typography>420</Typography>
           <Tooltip title="ContentCopyIcon">
@@ -188,7 +215,12 @@ export default function Home() {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr auto",
+          }}
+        >
           <Typography>必要おにぎり</Typography>
           <Typography>1680</Typography>
           <Tooltip title="ContentCopyIcon">
