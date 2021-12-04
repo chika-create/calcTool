@@ -91,27 +91,39 @@ export default function Home() {
           <Typography>初期設定</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>赤城 騎馬数（デッキ人数）</Typography>
-          <ToggleButtonGroup
-            value={alignment}
-            exclusive
-            onChange={handleAlignment}
-            aria-label="text alignment"
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, auto 1fr)",
+            }}
           >
-            <ToggleButton value="left" aria-label="left aligned">
-              1
-            </ToggleButton>
-            <ToggleButton value="center" aria-label="centered">
-              2
-            </ToggleButton>
-            <ToggleButton value="right" aria-label="right aligned">
-              3
-            </ToggleButton>
-            <ToggleButton value="justify" aria-label="justified">
-              4
-            </ToggleButton>
-          </ToggleButtonGroup>
-          <Box>
+            <Typography>赤城</Typography>
+            <ToggleButtonGroup
+              value={alignment}
+              exclusive
+              onChange={handleAlignment}
+              aria-label="text alignment"
+            >
+              <ToggleButton value="left" aria-label="left aligned">
+                1
+              </ToggleButton>
+              <ToggleButton value="center" aria-label="centered">
+                2
+              </ToggleButton>
+              <ToggleButton value="right" aria-label="right aligned">
+                3
+              </ToggleButton>
+              <ToggleButton value="justify" aria-label="justified">
+                4
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, auto 1fr)",
+            }}
+          >
             <Typography>1分の駐屯数</Typography>
             <TextField
               id="outlined-number"
@@ -128,7 +140,12 @@ export default function Home() {
 
       <TabPanel value={value} index={0}>
         <Typography>傾国のおにぎり計算エリア</Typography>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+          }}
+        >
           <Typography>守る時間</Typography>
           <TextField
             id="outlined-number"
