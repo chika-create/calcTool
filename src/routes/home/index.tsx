@@ -52,12 +52,14 @@ function a11yProps(index: number) {
   };
 }
 
-export default function Home(): {
+export default function Home() {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -81,22 +83,38 @@ export default function Home(): {
           <Typography>初期設定</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>赤城 騎馬数（デッキ人数）</Typography>
-          <ToggleButtonGroup value="test" aria-label="text alignment" exclusive>
-            <ToggleButton value="left" aria-label="left aligned">
-              1
-            </ToggleButton>
-            <ToggleButton value="center" aria-label="centered">
-              2
-            </ToggleButton>
-            <ToggleButton value="right" aria-label="right aligned">
-              3
-            </ToggleButton>
-            <ToggleButton value="justify" aria-label="justified">
-              4
-            </ToggleButton>
-          </ToggleButtonGroup>
-          <Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, auto 1fr)",
+            }}
+          >
+            <Typography>赤城</Typography>
+            <ToggleButtonGroup
+              value="test"
+              aria-label="text alignment"
+              exclusive
+            >
+              <ToggleButton value="left" aria-label="left aligned">
+                1
+              </ToggleButton>
+              <ToggleButton value="center" aria-label="centered">
+                2
+              </ToggleButton>
+              <ToggleButton value="right" aria-label="right aligned">
+                3
+              </ToggleButton>
+              <ToggleButton value="justify" aria-label="justified">
+                4
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, auto 1fr)",
+            }}
+          >
             <Typography>1分の駐屯数</Typography>
             <TextField
               id="outlined-number"
@@ -150,19 +168,31 @@ export default function Home(): {
         <Typography>おにぎり一覧表を表示</Typography>
       </TabPanel>
 
-      <Typography>城種別</Typography>
-      <ButtonGroup
-        variant="contained"
-        aria-label="outlined primary button group"
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr",
+        }}
       >
-        <Button>赤城</Button>
-        <Button>青城</Button>
-        <Button>金城</Button>
-      </ButtonGroup>
+        <Typography>城種別</Typography>
+        <ButtonGroup
+          variant="contained"
+          aria-label="outlined primary button group"
+        >
+          <Button>赤城</Button>
+          <Button>青城</Button>
+          <Button>金城</Button>
+        </ButtonGroup>
+      </Box>
       <Button>おにぎり計算</Button>
 
       <Box>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr auto",
+          }}
+        >
           <Typography>積み切り駐屯</Typography>
           <Typography>840</Typography>
           <Tooltip title="ContentCopyIcon">
@@ -171,7 +201,12 @@ export default function Home(): {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr auto",
+          }}
+        >
           <Typography>再駐屯込み</Typography>
           <Typography>420</Typography>
           <Tooltip title="ContentCopyIcon">
@@ -180,7 +215,12 @@ export default function Home(): {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr auto",
+          }}
+        >
           <Typography>必要おにぎり</Typography>
           <Typography>1680</Typography>
           <Tooltip title="ContentCopyIcon">
