@@ -86,25 +86,59 @@ export default function Home() {
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, auto 1fr)",
+              gridTemplateColumns: "auto 1fr",
+              mb: 3,
             }}
           >
-            <Typography>赤城</Typography>
+            <Typography
+              sx={{
+                alignSelf: "center",
+              }}
+            >
+              赤城
+            </Typography>
             <ToggleButtonGroup
               value="test"
               aria-label="text alignment"
               exclusive
+              sx={{
+                ml: 2,
+              }}
             >
-              <ToggleButton value="left" aria-label="left aligned">
+              <ToggleButton
+                value="left"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
                 1
               </ToggleButton>
-              <ToggleButton value="center" aria-label="centered">
+              <ToggleButton
+                value="left"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
                 2
               </ToggleButton>
-              <ToggleButton value="right" aria-label="right aligned">
+              <ToggleButton
+                value="left"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
                 3
               </ToggleButton>
-              <ToggleButton value="justify" aria-label="justified">
+              <ToggleButton
+                value="left"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
                 4
               </ToggleButton>
             </ToggleButtonGroup>
@@ -115,7 +149,13 @@ export default function Home() {
               gridTemplateColumns: "repeat(2, auto 1fr)",
             }}
           >
-            <Typography>1分の駐屯数</Typography>
+            <Typography
+              sx={{
+                alignSelf: "center",
+              }}
+            >
+              1分の駐屯数
+            </Typography>
             <TextField
               id="outlined-number"
               label="Number"
@@ -124,20 +164,35 @@ export default function Home() {
               InputLabelProps={{
                 shrink: true,
               }}
+              sx={{
+                ml: 2,
+              }}
             />
           </Box>
         </AccordionDetails>
       </Accordion>
 
       <TabPanel value={value} index={0}>
-        <Typography>傾国のおにぎり計算エリア</Typography>
+        <Typography
+          sx={{
+            mb: 2,
+          }}
+        >
+          傾国のおにぎり計算エリア
+        </Typography>
         <Box
           sx={{
             display: "grid",
-            gridTemplateColumns: "repeat(5, 1fr)",
+            gridTemplateColumns: "auto 1fr auto 1fr auto",
           }}
         >
-          <Typography>守る時間</Typography>
+          <Typography
+            sx={{
+              alignSelf: "center",
+            }}
+          >
+            守る時間
+          </Typography>
           <TextField
             id="outlined-number"
             label="Number"
@@ -145,8 +200,18 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
+            sx={{
+              ml: 2,
+            }}
           />
-          <Typography>分</Typography>
+          <Typography
+            sx={{
+              alignSelf: "center",
+              ml: 2,
+            }}
+          >
+            分
+          </Typography>
           <TextField
             id="outlined-number"
             label="Number"
@@ -154,8 +219,18 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
+            sx={{
+              ml: 2,
+            }}
           />
-          <Typography>秒</Typography>
+          <Typography
+            sx={{
+              alignSelf: "center",
+              ml: 2,
+            }}
+          >
+            秒
+          </Typography>
         </Box>
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
@@ -172,32 +247,88 @@ export default function Home() {
         sx={{
           display: "grid",
           gridTemplateColumns: "auto 1fr",
+          p: 3,
         }}
       >
-        <Typography>城種別</Typography>
+        <Typography
+          sx={{
+            alignSelf: "center",
+          }}
+        >
+          城種別
+        </Typography>
         <ButtonGroup
           variant="contained"
           aria-label="outlined primary button group"
+          sx={{
+            ml: 2,
+          }}
         >
-          <Button>赤城</Button>
-          <Button>青城</Button>
-          <Button>金城</Button>
+          <Button
+            sx={{
+              width: 1 / 3,
+            }}
+          >
+            赤城
+          </Button>
+          <Button
+            sx={{
+              width: 1 / 3,
+            }}
+          >
+            青城
+          </Button>
+          <Button
+            sx={{
+              width: 1 / 3,
+            }}
+          >
+            金城
+          </Button>
         </ButtonGroup>
       </Box>
-      <Button>おにぎり計算</Button>
 
-      <Box>
+      <Box
+        sx={{
+          textAlign: "center",
+        }}
+      >
+        <Button variant="contained">おにぎり計算</Button>
+      </Box>
+
+      <Box
+        sx={{
+          p: 3,
+        }}
+      >
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr auto",
           }}
         >
-          <Typography>積み切り駐屯</Typography>
-          <Typography>840</Typography>
+          <Typography
+            sx={{
+              alignSelf: "center",
+            }}
+          >
+            積み切り駐屯
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "medium",
+              fontSize: 30,
+            }}
+          >
+            840
+          </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
-              <ContentCopyIcon />
+              <ContentCopyIcon
+                sx={{
+                  width: "0.8em",
+                }}
+              />
             </IconButton>
           </Tooltip>
         </Box>
@@ -207,11 +338,28 @@ export default function Home() {
             gridTemplateColumns: "1fr 1fr auto",
           }}
         >
-          <Typography>再駐屯込み</Typography>
-          <Typography>420</Typography>
+          <Typography
+            sx={{
+              alignSelf: "center",
+            }}
+          >
+            再駐屯込み
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "medium",
+              fontSize: 30,
+            }}
+          >
+            420
+          </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
-              <ContentCopyIcon />
+              <ContentCopyIcon
+                sx={{
+                  width: "0.8em",
+                }}
+              />
             </IconButton>
           </Tooltip>
         </Box>
@@ -221,11 +369,28 @@ export default function Home() {
             gridTemplateColumns: "1fr 1fr auto",
           }}
         >
-          <Typography>必要おにぎり</Typography>
-          <Typography>1680</Typography>
+          <Typography
+            sx={{
+              alignSelf: "center",
+            }}
+          >
+            必要おにぎり
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: "medium",
+              fontSize: 30,
+            }}
+          >
+            1680
+          </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
-              <ContentCopyIcon />
+              <ContentCopyIcon
+                sx={{
+                  width: "0.8em",
+                }}
+              />
             </IconButton>
           </Tooltip>
         </Box>
