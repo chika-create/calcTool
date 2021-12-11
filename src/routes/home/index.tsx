@@ -14,7 +14,6 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -257,35 +256,43 @@ export default function Home() {
         >
           城種別
         </Typography>
-        <ButtonGroup
-          variant="contained"
-          aria-label="outlined primary button group"
+
+        <ToggleButtonGroup
+          value="test"
+          aria-label="text alignment"
+          exclusive
           sx={{
             ml: 2,
           }}
         >
-          <Button
+          <ToggleButton
+            value="left"
+            aria-label="left aligned"
             sx={{
               width: 1 / 3,
             }}
           >
             赤城
-          </Button>
-          <Button
+          </ToggleButton>
+          <ToggleButton
+            value="left"
+            aria-label="left aligned"
             sx={{
               width: 1 / 3,
             }}
           >
             青城
-          </Button>
-          <Button
+          </ToggleButton>
+          <ToggleButton
+            value="left"
+            aria-label="left aligned"
             sx={{
               width: 1 / 3,
             }}
           >
             金城
-          </Button>
-        </ButtonGroup>
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
 
       <Box
