@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useRef } from "react";
 import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
@@ -60,6 +60,16 @@ export default function Home() {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+  const textRef = useRef(null);
+  const doClick = () => {
+    console.log("textRef.current:", textRef.current);
+  };
+
+  // 静的計算
+  let testNumber = 10;
+  testNumber = (testNumber * 60) / 1.57;
+  console.log(Math.floor(testNumber));
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -97,7 +107,6 @@ export default function Home() {
               赤城
             </Typography>
             <ToggleButtonGroup
-              value="test"
               aria-label="text alignment"
               exclusive
               sx={{
@@ -105,7 +114,7 @@ export default function Home() {
               }}
             >
               <ToggleButton
-                value="left"
+                value="1"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -114,7 +123,7 @@ export default function Home() {
                 1
               </ToggleButton>
               <ToggleButton
-                value="left"
+                value="2"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -123,7 +132,7 @@ export default function Home() {
                 2
               </ToggleButton>
               <ToggleButton
-                value="left"
+                value="3"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -132,7 +141,7 @@ export default function Home() {
                 3
               </ToggleButton>
               <ToggleButton
-                value="left"
+                value="4"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -199,6 +208,8 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
+            ref={textRef}
+            value="1"
             sx={{
               ml: 2,
             }}
@@ -218,6 +229,7 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
+            value="2"
             sx={{
               ml: 2,
             }}
@@ -300,7 +312,9 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <Button variant="contained">おにぎり計算</Button>
+        <Button variant="contained" onClick={doClick}>
+          おにぎり計算
+        </Button>
       </Box>
 
       <Box
