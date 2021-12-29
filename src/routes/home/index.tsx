@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
@@ -60,6 +60,45 @@ export default function Home() {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+  let numMin = 0;
+  let numSec = 0;
+  let numNumer = 0;
+
+  const numMinChange = (event) => {
+    numMin = event.target.value;
+    numNumer = numMin + numSec;
+    console.log(numNumer);
+    numNumer = (numNumer * 60) / 1.57;
+
+    console.log(
+      `numMinChange: ${Math.floor(numNumer)} min+sec: ${
+        numMin + numSec
+      } numMinChange: ${numMin} / numSecChange ${numSec}`
+    );
+  };
+
+  // const calcOutput = () => {
+  //   return numNumer;
+  // };
+
+  const numSecChange = (event) => {
+    numSec = event.target.value;
+    numSec = numSec / 60;
+    numNumer = numMin + numSec;
+    numNumer = (numNumer * 60) / 1.57;
+    console.log(
+      `numSecChange: ${Math.floor(numNumer)} min+sec: ${
+        numMin + numSec
+      } numMinChange: ${numMin} / numSecChange ${numSec}`
+    );
+  };
+
+  // const calculator = (event) => {
+  //   numMin = event.target.value;
+  //   numMin = (numMin * 60) / 1.57;
+  //   console.log(Math.floor(numMin));
+  // };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -97,7 +136,6 @@ export default function Home() {
               赤城
             </Typography>
             <ToggleButtonGroup
-              value="test"
               aria-label="text alignment"
               exclusive
               sx={{
@@ -105,7 +143,7 @@ export default function Home() {
               }}
             >
               <ToggleButton
-                value="left"
+                value="1"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -114,7 +152,7 @@ export default function Home() {
                 1
               </ToggleButton>
               <ToggleButton
-                value="left"
+                value="2"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -123,7 +161,7 @@ export default function Home() {
                 2
               </ToggleButton>
               <ToggleButton
-                value="left"
+                value="3"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -132,7 +170,7 @@ export default function Home() {
                 3
               </ToggleButton>
               <ToggleButton
-                value="left"
+                value="4"
                 aria-label="left aligned"
                 sx={{
                   width: 1 / 4,
@@ -199,6 +237,8 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
+            onChange={numMinChange}
+            value=""
             sx={{
               ml: 2,
             }}
@@ -218,6 +258,8 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
+            onChange={numSecChange}
+            value=""
             sx={{
               ml: 2,
             }}
@@ -327,7 +369,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            840
+            ${numNumer}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
