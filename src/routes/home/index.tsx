@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
@@ -60,15 +60,44 @@ export default function Home() {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  const textRef = useRef(null);
-  const doClick = () => {
-    console.log("textRef.current:", textRef.current);
+  let numMin = 0;
+  let numSec = 0;
+  let numNumer = 0;
+
+  const numMinChange = (event) => {
+    numMin = event.target.value;
+    numNumer = numMin + numSec;
+    console.log(numNumer);
+    numNumer = (numNumer * 60) / 1.57;
+
+    console.log(
+      `numMinChange: ${Math.floor(numNumer)} min+sec: ${
+        numMin + numSec
+      } numMinChange: ${numMin} / numSecChange ${numSec}`
+    );
   };
 
-  // 静的計算
-  let testNumber = 10;
-  testNumber = (testNumber * 60) / 1.57;
-  console.log(Math.floor(testNumber));
+  // const calcOutput = () => {
+  //   return numNumer;
+  // };
+
+  const numSecChange = (event) => {
+    numSec = event.target.value;
+    numSec = numSec / 60;
+    numNumer = numMin + numSec;
+    numNumer = (numNumer * 60) / 1.57;
+    console.log(
+      `numSecChange: ${Math.floor(numNumer)} min+sec: ${
+        numMin + numSec
+      } numMinChange: ${numMin} / numSecChange ${numSec}`
+    );
+  };
+
+  // const calculator = (event) => {
+  //   numMin = event.target.value;
+  //   numMin = (numMin * 60) / 1.57;
+  //   console.log(Math.floor(numMin));
+  // };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -208,8 +237,8 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
-            ref={textRef}
-            value="1"
+            onChange={numMinChange}
+            value=""
             sx={{
               ml: 2,
             }}
@@ -229,7 +258,8 @@ export default function Home() {
             InputLabelProps={{
               shrink: true,
             }}
-            value="2"
+            onChange={numSecChange}
+            value=""
             sx={{
               ml: 2,
             }}
@@ -312,9 +342,7 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <Button variant="contained" onClick={doClick}>
-          おにぎり計算
-        </Button>
+        <Button variant="contained">おにぎり計算</Button>
       </Box>
 
       <Box
@@ -341,7 +369,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            840
+            ${numNumer}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
