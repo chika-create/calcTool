@@ -65,39 +65,21 @@ export default function Home() {
   let numNumer = 0;
 
   const numMinChange = (event) => {
-    numMin = event.target.value;
-    numNumer = numMin + numSec;
-    console.log(numNumer);
-    numNumer = (numNumer * 60) / 1.57;
-
-    console.log(
-      `numMinChange: ${Math.floor(numNumer)} min+sec: ${
-        numMin + numSec
-      } numMinChange: ${numMin} / numSecChange ${numSec}`
-    );
+    numMin = Number(event.target.value);
+    calculator();
   };
-
-  // const calcOutput = () => {
-  //   return numNumer;
-  // };
 
   const numSecChange = (event) => {
-    numSec = event.target.value;
+    numSec = Number(event.target.value);
     numSec = numSec / 60;
-    numNumer = numMin + numSec;
-    numNumer = (numNumer * 60) / 1.57;
-    console.log(
-      `numSecChange: ${Math.floor(numNumer)} min+sec: ${
-        numMin + numSec
-      } numMinChange: ${numMin} / numSecChange ${numSec}`
-    );
+    calculator();
   };
 
-  // const calculator = (event) => {
-  //   numMin = event.target.value;
-  //   numMin = (numMin * 60) / 1.57;
-  //   console.log(Math.floor(numMin));
-  // };
+  const calculator = () => {
+    numNumer = numMin + numSec;
+    numNumer = (numNumer * 60) / 1.57;
+    console.log(Math.floor(numNumer));
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
