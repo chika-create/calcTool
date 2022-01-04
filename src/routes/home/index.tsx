@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
@@ -62,7 +62,8 @@ export default function Home() {
 
   let numMin = 0;
   let numSec = 0;
-  let numNumer = 0;
+  let numTotal = 0;
+  const [numNumer, setNumNumer] = useState(0);
 
   const numMinChange = (event) => {
     numMin = Number(event.target.value);
@@ -70,15 +71,14 @@ export default function Home() {
   };
 
   const numSecChange = (event) => {
-    numSec = Number(event.target.value);
-    numSec = numSec / 60;
+    numSec = Number(event.target.value) / 60;
     calculator();
   };
 
   const calculator = () => {
-    numNumer = numMin + numSec;
-    numNumer = (numNumer * 60) / 1.57;
-    console.log(Math.floor(numNumer));
+    numTotal = numMin + numSec;
+    setNumNumer((numTotal * 60) / 1.57);
+    // console.log(Math.floor((numTotal * 60) / 1.57));
   };
 
   return (
@@ -351,7 +351,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            ${numNumer}
+            {numNumer}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
