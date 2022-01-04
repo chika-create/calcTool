@@ -77,8 +77,8 @@ export default function Home() {
 
   const calculator = () => {
     numTotal = numMin + numSec;
-    setNumNumer((numTotal * 60) / 1.57);
-    // console.log(Math.floor((numTotal * 60) / 1.57));
+    setNumNumer(Math.ceil((numTotal * 60) / 1.57));
+    // console.log(Math.ceil((numTotal * 60) / 1.57));
   };
 
   return (
