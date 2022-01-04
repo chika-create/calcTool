@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { h } from "preact";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
@@ -62,42 +62,24 @@ export default function Home() {
 
   let numMin = 0;
   let numSec = 0;
-  let numNumer = 0;
+  let numTotal = 0;
+  const [numNumer, setNumNumer] = useState(0);
 
   const numMinChange = (event) => {
-    numMin = event.target.value;
-    numNumer = numMin + numSec;
-    console.log(numNumer);
-    numNumer = (numNumer * 60) / 1.57;
-
-    console.log(
-      `numMinChange: ${Math.floor(numNumer)} min+sec: ${
-        numMin + numSec
-      } numMinChange: ${numMin} / numSecChange ${numSec}`
-    );
+    numMin = Number(event.target.value);
+    calculator();
   };
-
-  // const calcOutput = () => {
-  //   return numNumer;
-  // };
 
   const numSecChange = (event) => {
-    numSec = event.target.value;
-    numSec = numSec / 60;
-    numNumer = numMin + numSec;
-    numNumer = (numNumer * 60) / 1.57;
-    console.log(
-      `numSecChange: ${Math.floor(numNumer)} min+sec: ${
-        numMin + numSec
-      } numMinChange: ${numMin} / numSecChange ${numSec}`
-    );
+    numSec = Number(event.target.value) / 60;
+    calculator();
   };
 
-  // const calculator = (event) => {
-  //   numMin = event.target.value;
-  //   numMin = (numMin * 60) / 1.57;
-  //   console.log(Math.floor(numMin));
-  // };
+  const calculator = () => {
+    numTotal = numMin + numSec;
+    setNumNumer(Math.ceil((numTotal * 60) / 1.57));
+    // console.log(Math.ceil((numTotal * 60) / 1.57));
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -369,7 +351,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            ${numNumer}
+            {numNumer}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
