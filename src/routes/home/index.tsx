@@ -80,12 +80,11 @@ export default function Home() {
     calculator();
   };
 
-  const calculator = (watchStr) => {
-    // console.log("hoge: ", watchStr);
-    numMin = watchStr;
+  const calculator = (numMin, numSec2) => {
+    numSec = numSec2 / 60;
     numTotal = numMin + numSec;
-    setNumNumer(Math.ceil((numTotal * 60) / 1.57));
-    console.log(Math.ceil((numTotal * 60) / 1.57));
+    setNumNumer(Math.ceil((numTotal * 60) / 1.2));
+    console.log(Math.ceil((numTotal * 60) / 1.2));
   };
 
   const {
@@ -97,13 +96,8 @@ export default function Home() {
 
   const onSubmit = handleSubmit(
     (data) => console.log("hoge"),
-    calculator(Number(watch("example")))
+    calculator(Number(watch("numMin")), Number(watch("numSec")))
   );
-
-  // const onSubmit: SubmitHandler<Inputs> = (data) =>
-  //   console.log("onSubmit:", data);
-  // // watchは引数に渡した名前の入力値を監視する
-  // console.log("watch:", watch("example"));
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -242,9 +236,15 @@ export default function Home() {
             {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
             <input
               defaultValue=""
-              {...register("example", { required: true })}
+              {...register("numMin", { required: true })}
             />
-            {errors.example && <span>This field is required</span>}
+            分
+            <input
+              defaultValue=""
+              {...register("numSec", { required: true })}
+            />
+            秒{errors.numMin && <span>This field is required 1</span>}
+            {errors.numSec && <span>This field is required 2</span>}
             <TextField
               id="outlined-number"
               label="Number"
