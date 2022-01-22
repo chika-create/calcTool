@@ -80,10 +80,12 @@ export default function Home() {
     calculator();
   };
 
-  const calculator = () => {
+  const calculator = (watchStr) => {
+    // console.log("hoge: ", watchStr);
+    numMin = watchStr;
     numTotal = numMin + numSec;
     setNumNumer(Math.ceil((numTotal * 60) / 1.57));
-    // console.log(Math.ceil((numTotal * 60) / 1.57));
+    console.log(Math.ceil((numTotal * 60) / 1.57));
   };
 
   const {
@@ -91,12 +93,17 @@ export default function Home() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) =>
-    console.log("onSubmit:", data);
-  // watchは引数に渡した名前の入力値を監視する
-  console.log("watch:", watch("example"));
+  const onSubmit = handleSubmit(
+    (data) => console.log("hoge"),
+    calculator(Number(watch("example")))
+  );
+
+  // const onSubmit: SubmitHandler<Inputs> = (data) =>
+  //   console.log("onSubmit:", data);
+  // // watchは引数に渡した名前の入力値を監視する
+  // console.log("watch:", watch("example"));
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -234,7 +241,7 @@ export default function Home() {
             </Typography>
             {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
             <input
-              defaultValue="0"
+              defaultValue=""
               {...register("example", { required: true })}
             />
             {errors.example && <span>This field is required</span>}
