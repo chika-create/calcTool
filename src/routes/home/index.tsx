@@ -65,20 +65,20 @@ export default function Home() {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  let numMin = 0;
+  const numMin = 0;
   let numSec = 0;
   let numTotal = 0;
   const [numNumer, setNumNumer] = useState(0);
 
-  const numMinChange = (event) => {
-    numMin = Number(event.target.value);
-    calculator();
-  };
+  // const numMinChange = (event) => {
+  //   numMin = Number(event.target.value);
+  //   calculator();
+  // };
 
-  const numSecChange = (event) => {
-    numSec = Number(event.target.value) / 60;
-    calculator();
-  };
+  // const numSecChange = (event) => {
+  //   numSec = Number(event.target.value) / 60;
+  //   calculator();
+  // };
 
   const calculator = (numMin, numSec2) => {
     numSec = numSec2 / 60;
@@ -238,14 +238,7 @@ export default function Home() {
               defaultValue=""
               {...register("numMin", { required: true })}
             />
-            分
-            <input
-              defaultValue=""
-              {...register("numSec", { required: true })}
-            />
-            秒{errors.numMin && <span>This field is required 1</span>}
-            {errors.numSec && <span>This field is required 2</span>}
-            <TextField
+            {/* <TextField
               id="outlined-number"
               label="Number"
               type="number"
@@ -257,7 +250,7 @@ export default function Home() {
               sx={{
                 ml: 2,
               }}
-            />
+            /> */}
             <Typography
               sx={{
                 alignSelf: "center",
@@ -266,7 +259,12 @@ export default function Home() {
             >
               分
             </Typography>
-            <TextField
+            <input
+              defaultValue=""
+              {...register("numSec", { required: true })}
+            />
+
+            {/* <TextField
               id="outlined-number"
               label="Number"
               type="number"
@@ -278,7 +276,7 @@ export default function Home() {
               sx={{
                 ml: 2,
               }}
-            />
+            /> */}
             <Typography
               sx={{
                 alignSelf: "center",
@@ -287,6 +285,8 @@ export default function Home() {
             >
               秒
             </Typography>
+            {errors.numMin && <span>This field is required 1</span>}
+            {errors.numSec && <span>This field is required 2</span>}
           </form>
         </Box>
         <Box>
