@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { h } from "preact";
+import { useForm, SubmitHandler } from "react-hook-form";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -51,6 +52,10 @@ function a11yProps(index: number) {
   };
 }
 
+type Input = {
+  example: number;
+};
+
 export default function Home() {
   const [value, setValue] = React.useState(0);
 
@@ -75,11 +80,30 @@ export default function Home() {
     calculator();
   };
 
-  const calculator = () => {
+  const calculator = (watchStr) => {
+    // console.log("hoge: ", watchStr);
+    numMin = watchStr;
     numTotal = numMin + numSec;
     setNumNumer(Math.ceil((numTotal * 60) / 1.57));
-    // console.log(Math.ceil((numTotal * 60) / 1.57));
+    console.log(Math.ceil((numTotal * 60) / 1.57));
   };
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit(
+    (data) => console.log("hoge"),
+    calculator(Number(watch("example")))
+  );
+
+  // const onSubmit: SubmitHandler<Inputs> = (data) =>
+  //   console.log("onSubmit:", data);
+  // // watchは引数に渡した名前の入力値を監視する
+  // console.log("watch:", watch("example"));
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -199,61 +223,71 @@ export default function Home() {
         >
           傾国のおにぎり計算エリア
         </Typography>
+
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: "auto 1fr auto 1fr auto",
           }}
         >
-          <Typography
-            sx={{
-              alignSelf: "center",
-            }}
-          >
-            守る時間
-          </Typography>
-          <TextField
-            id="outlined-number"
-            label="Number"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={numMinChange}
-            value=""
-            sx={{
-              ml: 2,
-            }}
-          />
-          <Typography
-            sx={{
-              alignSelf: "center",
-              ml: 2,
-            }}
-          >
-            分
-          </Typography>
-          <TextField
-            id="outlined-number"
-            label="Number"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={numSecChange}
-            value=""
-            sx={{
-              ml: 2,
-            }}
-          />
-          <Typography
-            sx={{
-              alignSelf: "center",
-              ml: 2,
-            }}
-          >
-            秒
-          </Typography>
+          {/* handleSubmit はフォームの入力を確かめた上引数に渡した関数（onSubmit）を呼び出す */}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Typography
+              sx={{
+                alignSelf: "center",
+              }}
+            >
+              守る時間
+            </Typography>
+            {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
+            <input
+              defaultValue=""
+              {...register("example", { required: true })}
+            />
+            {errors.example && <span>This field is required</span>}
+            <TextField
+              id="outlined-number"
+              label="Number"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={numMinChange}
+              value=""
+              sx={{
+                ml: 2,
+              }}
+            />
+            <Typography
+              sx={{
+                alignSelf: "center",
+                ml: 2,
+              }}
+            >
+              分
+            </Typography>
+            <TextField
+              id="outlined-number"
+              label="Number"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={numSecChange}
+              value=""
+              sx={{
+                ml: 2,
+              }}
+            />
+            <Typography
+              sx={{
+                alignSelf: "center",
+                ml: 2,
+              }}
+            >
+              秒
+            </Typography>
+          </form>
         </Box>
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
