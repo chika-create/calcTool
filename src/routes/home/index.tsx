@@ -65,27 +65,26 @@ export default function Home() {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-  let numMin = 0;
+  const numMin = 0;
   let numSec = 0;
   let numTotal = 0;
   const [numNumer, setNumNumer] = useState(0);
 
-  const numMinChange = (event) => {
-    numMin = Number(event.target.value);
-    calculator();
-  };
+  // const numMinChange = (event) => {
+  //   numMin = Number(event.target.value);
+  //   calculator();
+  // };
 
-  const numSecChange = (event) => {
-    numSec = Number(event.target.value) / 60;
-    calculator();
-  };
+  // const numSecChange = (event) => {
+  //   numSec = Number(event.target.value) / 60;
+  //   calculator();
+  // };
 
-  const calculator = (watchStr) => {
-    // console.log("hoge: ", watchStr);
-    numMin = watchStr;
+  const calculator = (numMin, numSec2) => {
+    numSec = numSec2 / 60;
     numTotal = numMin + numSec;
-    setNumNumer(Math.ceil((numTotal * 60) / 1.57));
-    console.log(Math.ceil((numTotal * 60) / 1.57));
+    setNumNumer(Math.ceil((numTotal * 60) / 1.2));
+    console.log(Math.ceil((numTotal * 60) / 1.2));
   };
 
   const {
@@ -97,13 +96,8 @@ export default function Home() {
 
   const onSubmit = handleSubmit(
     (data) => console.log("hoge"),
-    calculator(Number(watch("example")))
+    calculator(Number(watch("numMin")), Number(watch("numSec")))
   );
-
-  // const onSubmit: SubmitHandler<Inputs> = (data) =>
-  //   console.log("onSubmit:", data);
-  // // watchは引数に渡した名前の入力値を監視する
-  // console.log("watch:", watch("example"));
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -242,10 +236,9 @@ export default function Home() {
             {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
             <input
               defaultValue=""
-              {...register("example", { required: true })}
+              {...register("numMin", { required: true })}
             />
-            {errors.example && <span>This field is required</span>}
-            <TextField
+            {/* <TextField
               id="outlined-number"
               label="Number"
               type="number"
@@ -257,7 +250,7 @@ export default function Home() {
               sx={{
                 ml: 2,
               }}
-            />
+            /> */}
             <Typography
               sx={{
                 alignSelf: "center",
@@ -266,7 +259,12 @@ export default function Home() {
             >
               分
             </Typography>
-            <TextField
+            <input
+              defaultValue=""
+              {...register("numSec", { required: true })}
+            />
+
+            {/* <TextField
               id="outlined-number"
               label="Number"
               type="number"
@@ -278,7 +276,7 @@ export default function Home() {
               sx={{
                 ml: 2,
               }}
-            />
+            /> */}
             <Typography
               sx={{
                 alignSelf: "center",
@@ -287,6 +285,8 @@ export default function Home() {
             >
               秒
             </Typography>
+            {errors.numMin && <span>This field is required 1</span>}
+            {errors.numSec && <span>This field is required 2</span>}
           </form>
         </Box>
         <Box>
@@ -358,7 +358,7 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <Button variant="contained">おにぎり計算</Button>
+        {/* <Button variant="contained">おにぎり計算</Button> */}
       </Box>
 
       <Box
