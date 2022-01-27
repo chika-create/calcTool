@@ -358,7 +358,7 @@ export default function Home() {
           textAlign: "center",
         }}
       >
-        <Button variant="contained">おにぎり計算</Button>
+        {/* <Button variant="contained">おにぎり計算</Button> */}
       </Box>
 
       <Box
