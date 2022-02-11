@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { h } from "preact";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -58,6 +58,37 @@ type Input = {
 
 export default function Home() {
   const [value, setValue] = React.useState(0);
+  const inputRefNum = useRef(null);
+  const inputRefSec = useRef(null);
+  const [inputNum, setInputNum] = useState(false);
+  const [inputSec, setInputSec] = useState(false);
+  const [inputError, setInputError] = useState(false);
+
+  const handleChange2 = () => {
+    if (inputRefNum.current) {
+      const ref = inputRefNum.current;
+      setInputNum(Number(inputRefNum.current.value));
+      if (!ref.validity.valid) {
+        setInputError(true);
+      } else {
+        setInputError(false);
+      }
+    }
+    // calculator(Number(watch("numMin")), Number(watch("numSec")))
+  };
+
+  const handleChangeSec = () => {
+    if (inputRefSec.current) {
+      const ref = inputRefSec.current;
+      setInputSec(Number(inputRefSec.current.value));
+      if (!ref.validity.valid) {
+        setInputError(true);
+      } else {
+        setInputError(false);
+      }
+    }
+    // calculator(Number(watch("numMin")), Number(watch("numSec")))
+  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -84,6 +115,7 @@ export default function Home() {
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
     setNumNumer(Math.ceil((numTotal * 60) / 1.2));
+    console.log("number: ", numMin, "/", numSec2, " total: ", numTotal);
     console.log(Math.ceil((numTotal * 60) / 1.2));
   };
 
@@ -96,8 +128,11 @@ export default function Home() {
 
   const onSubmit = handleSubmit(
     (data) => console.log("hoge"),
-    calculator(Number(watch("numMin")), Number(watch("numSec")))
+    console.log("chika")
+    // calculator(Number(watch("numMin")), Number(watch("numSec")))
   );
+
+  calculator(inputNum, inputSec);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -234,23 +269,32 @@ export default function Home() {
               守る時間
             </Typography>
             {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
-            <input
+            {/* <input
               defaultValue=""
               {...register("numMin", { required: true })}
-            />
-            {/* <TextField
-              id="outlined-number"
-              label="Number"
+            /> */}
+            <TextField
+              error={inputError}
+              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
+              inputRef={inputRefNum}
+              // defaultValue=""
+              id="outlined-basic"
               type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={numMinChange}
-              value=""
+              label="Number"
+              variant="outlined"
+              helperText={inputRefNum?.current?.validationMessage}
+              onChange={handleChange2}
+              // id="outlined-number"
+              // InputLabelProps={{
+              //   shrink: true,
+              // }}
+              // onChange={numMinChange}
+              // value=""
+              // inputProps={...register("numMin", { required: true })}
               sx={{
                 ml: 2,
               }}
-            /> */}
+            />
             <Typography
               sx={{
                 alignSelf: "center",
@@ -259,10 +303,33 @@ export default function Home() {
             >
               分
             </Typography>
-            <input
+            <TextField
+              error={inputError}
+              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
+              inputRef={inputRefSec}
+              // defaultValue=""
+              id="outlined-basic"
+              type="number"
+              label="Number"
+              variant="outlined"
+              helperText={inputRefSec?.current?.validationMessage}
+              onChange={handleChangeSec}
+              // id="outlined-number"
+              // InputLabelProps={{
+              //   shrink: true,
+              // }}
+              // onChange={numMinChange}
+              // value=""
+              // inputProps={...register("numMin", { required: true })}
+              sx={{
+                ml: 2,
+              }}
+            />
+
+            {/* <input
               defaultValue=""
               {...register("numSec", { required: true })}
-            />
+            /> */}
 
             {/* <TextField
               id="outlined-number"
@@ -416,7 +483,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            420
+            {Math.ceil(numNumer / 2)}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
