@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { h } from "preact";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -59,33 +59,24 @@ type Input = {
 export default function Home() {
   const [value, setValue] = React.useState(0);
 
+  // デッキ数計算用
+  const inputRefDeck = useRef(null);
+  const [inputDeck, setInputDeck] = useState(false);
+  const [inputDeckError, setInputDeckError] = useState(false);
+
+  // 計算機能用
+  const inputRefNum = useRef(null);
+  const inputRefSec = useRef(null);
+  const [inputNum, setInputNum] = useState(false);
+  const [inputSec, setInputSec] = useState(false);
+  const [inputNumError, setInputNumError] = useState(false);
+  const [inputSecError, setInputSecError] = useState(false);
+  const [numNumer, setNumNumer] = useState(0);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  const numMin = 0;
-  let numSec = 0;
-  let numTotal = 0;
-  const [numNumer, setNumNumer] = useState(0);
-
-  // const numMinChange = (event) => {
-  //   numMin = Number(event.target.value);
-  //   calculator();
-  // };
-
-  // const numSecChange = (event) => {
-  //   numSec = Number(event.target.value) / 60;
-  //   calculator();
-  // };
-
-  const calculator = (numMin, numSec2) => {
-    numSec = numSec2 / 60;
-    numTotal = numMin + numSec;
-    setNumNumer(Math.ceil((numTotal * 60) / 1.2));
-    console.log(Math.ceil((numTotal * 60) / 1.2));
-  };
 
   const {
     register,
@@ -94,10 +85,64 @@ export default function Home() {
     formState: { errors },
   } = useForm();
 
+  // form 動作
   const onSubmit = handleSubmit(
     (data) => console.log("hoge"),
-    calculator(Number(watch("numMin")), Number(watch("numSec")))
+    console.log("chika")
   );
+
+  // 「デッキ数」入力の取得
+  const handleChangeDeck = () => {
+    if (inputRefDeck.current) {
+      const ref = inputRefDeck.current;
+      setInputDeck(Number(inputRefDeck.current.value));
+      if (!ref.validity.valid) {
+        setInputDeckError(true);
+      } else {
+        setInputDeckError(false);
+      }
+    }
+  };
+
+  // 「分」入力の取得
+  const handleChangeNum = () => {
+    if (inputRefNum.current) {
+      const ref = inputRefNum.current;
+      setInputNum(Number(inputRefNum.current.value));
+      if (!ref.validity.valid) {
+        setInputNumError(true);
+      } else {
+        setInputNumError(false);
+      }
+    }
+  };
+
+  // 「秒」入力の取得
+  const handleChangeSec = () => {
+    if (inputRefSec.current) {
+      const ref = inputRefSec.current;
+      setInputSec(Number(inputRefSec.current.value));
+      if (!ref.validity.valid) {
+        setInputSecError(true);
+      } else {
+        setInputSecError(false);
+      }
+    }
+  };
+
+  // 計算機能
+  const calculator = (numMin, numSec2, numDeck2) => {
+    let numDeck = 0;
+    let numSec = 0;
+    let numTotal = 0;
+
+    numDeck = 60 / numDeck2;
+    numSec = numSec2 / 60;
+    numTotal = numMin + numSec;
+    setNumNumer(Math.ceil((numTotal * 60) / numDeck));
+  };
+
+  calculator(inputNum, inputSec, inputDeck);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -194,6 +239,21 @@ export default function Home() {
               1分の駐屯数
             </Typography>
             <TextField
+              error={inputDeckError}
+              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
+              inputRef={inputRefDeck}
+              // defaultValue=""
+              id="outlined-basic"
+              type="number"
+              label="Number"
+              variant="outlined"
+              helperText={inputRefDeck?.current?.validationMessage}
+              onChange={handleChangeDeck}
+              sx={{
+                ml: 2,
+              }}
+            />
+            {/* <TextField
               id="outlined-number"
               label="Number"
               type="number"
@@ -204,7 +264,7 @@ export default function Home() {
               sx={{
                 ml: 2,
               }}
-            />
+            /> */}
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -218,14 +278,14 @@ export default function Home() {
           傾国のおにぎり計算エリア
         </Typography>
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "auto 1fr auto 1fr auto",
-          }}
-        >
-          {/* handleSubmit はフォームの入力を確かめた上引数に渡した関数（onSubmit）を呼び出す */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+        {/* handleSubmit はフォームの入力を確かめた上引数に渡した関数（onSubmit）を呼び出す */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr auto 1fr auto",
+            }}
+          >
             <Typography
               sx={{
                 alignSelf: "center",
@@ -233,24 +293,21 @@ export default function Home() {
             >
               守る時間
             </Typography>
-            {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
-            <input
-              defaultValue=""
-              {...register("numMin", { required: true })}
-            />
-            {/* <TextField
-              id="outlined-number"
-              label="Number"
+            <TextField
+              error={inputNumError}
+              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
+              inputRef={inputRefNum}
+              // defaultValue=""
+              id="outlined-basic"
               type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={numMinChange}
-              value=""
+              label="Number"
+              variant="outlined"
+              helperText={inputRefNum?.current?.validationMessage}
+              onChange={handleChangeNum}
               sx={{
                 ml: 2,
               }}
-            /> */}
+            />
             <Typography
               sx={{
                 alignSelf: "center",
@@ -259,24 +316,23 @@ export default function Home() {
             >
               分
             </Typography>
-            <input
-              defaultValue=""
-              {...register("numSec", { required: true })}
-            />
-
-            {/* <TextField
-              id="outlined-number"
-              label="Number"
+            <TextField
+              error={inputSecError}
+              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
+              inputRef={inputRefSec}
+              // defaultValue=""
+              // value=""
+              id="outlined-basic"
               type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={numSecChange}
-              value=""
+              label="Number"
+              variant="outlined"
+              helperText={inputRefSec?.current?.validationMessage}
+              onChange={handleChangeSec}
               sx={{
                 ml: 2,
               }}
-            /> */}
+            />
+
             <Typography
               sx={{
                 alignSelf: "center",
@@ -285,10 +341,10 @@ export default function Home() {
             >
               秒
             </Typography>
-            {errors.numMin && <span>This field is required 1</span>}
-            {errors.numSec && <span>This field is required 2</span>}
-          </form>
-        </Box>
+          </Box>
+          {errors.numMin && <span>This field is required 1</span>}
+          {errors.numSec && <span>This field is required 2</span>}
+        </form>
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
         </Box>
@@ -416,7 +472,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            420
+            {Math.ceil(numNumer / 2)}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
