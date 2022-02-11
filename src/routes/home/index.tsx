@@ -59,6 +59,12 @@ type Input = {
 export default function Home() {
   const [value, setValue] = React.useState(0);
 
+  // デッキ数計算用
+  const inputRefDeck = useRef(null);
+  const [inputDeck, setInputDeck] = useState(false);
+  const [inputDeckError, setInputDeckError] = useState(false);
+
+  // 計算機能用
   const inputRefNum = useRef(null);
   const inputRefSec = useRef(null);
   const [inputNum, setInputNum] = useState(false);
@@ -84,6 +90,19 @@ export default function Home() {
     (data) => console.log("hoge"),
     console.log("chika")
   );
+
+  // 「デッキ数」入力の取得
+  const handleChangeDeck = () => {
+    if (inputRefDeck.current) {
+      const ref = inputRefDeck.current;
+      setInputDeck(Number(inputRefDeck.current.value));
+      if (!ref.validity.valid) {
+        setInputDeckError(true);
+      } else {
+        setInputDeckError(false);
+      }
+    }
+  };
 
   // 「分」入力の取得
   const handleChangeNum = () => {
@@ -112,15 +131,18 @@ export default function Home() {
   };
 
   // 計算機能
-  const calculator = (numMin, numSec2) => {
+  const calculator = (numMin, numSec2, numDeck2) => {
+    let numDeck = 0;
     let numSec = 0;
     let numTotal = 0;
+
+    numDeck = 60 / numDeck2;
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
-    setNumNumer(Math.ceil((numTotal * 60) / 1.2));
+    setNumNumer(Math.ceil((numTotal * 60) / numDeck));
   };
 
-  calculator(inputNum, inputSec);
+  calculator(inputNum, inputSec, inputDeck);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -217,6 +239,21 @@ export default function Home() {
               1分の駐屯数
             </Typography>
             <TextField
+              error={inputDeckError}
+              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
+              inputRef={inputRefDeck}
+              // defaultValue=""
+              id="outlined-basic"
+              type="number"
+              label="Number"
+              variant="outlined"
+              helperText={inputRefDeck?.current?.validationMessage}
+              onChange={handleChangeDeck}
+              sx={{
+                ml: 2,
+              }}
+            />
+            {/* <TextField
               id="outlined-number"
               label="Number"
               type="number"
@@ -227,7 +264,7 @@ export default function Home() {
               sx={{
                 ml: 2,
               }}
-            />
+            /> */}
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -284,6 +321,7 @@ export default function Home() {
               // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
               inputRef={inputRefSec}
               // defaultValue=""
+              // value=""
               id="outlined-basic"
               type="number"
               label="Number"
