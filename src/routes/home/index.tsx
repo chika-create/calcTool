@@ -58,13 +58,34 @@ type Input = {
 
 export default function Home() {
   const [value, setValue] = React.useState(0);
+
   const inputRefNum = useRef(null);
   const inputRefSec = useRef(null);
   const [inputNum, setInputNum] = useState(false);
   const [inputSec, setInputSec] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const [numNumer, setNumNumer] = useState(0);
 
-  const handleChange2 = () => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  // form 動作
+  const onSubmit = handleSubmit(
+    (data) => console.log("hoge"),
+    console.log("chika")
+  );
+
+  // 「分」入力の取得
+  const handleChangeNum = () => {
     if (inputRefNum.current) {
       const ref = inputRefNum.current;
       setInputNum(Number(inputRefNum.current.value));
@@ -74,9 +95,9 @@ export default function Home() {
         setInputError(false);
       }
     }
-    // calculator(Number(watch("numMin")), Number(watch("numSec")))
   };
 
+  // 「秒」入力の取得
   const handleChangeSec = () => {
     if (inputRefSec.current) {
       const ref = inputRefSec.current;
@@ -87,50 +108,16 @@ export default function Home() {
         setInputError(false);
       }
     }
-    // calculator(Number(watch("numMin")), Number(watch("numSec")))
   };
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  const numMin = 0;
-  let numSec = 0;
-  let numTotal = 0;
-  const [numNumer, setNumNumer] = useState(0);
-
-  // const numMinChange = (event) => {
-  //   numMin = Number(event.target.value);
-  //   calculator();
-  // };
-
-  // const numSecChange = (event) => {
-  //   numSec = Number(event.target.value) / 60;
-  //   calculator();
-  // };
-
+  // 計算機能
   const calculator = (numMin, numSec2) => {
+    let numSec = 0;
+    let numTotal = 0;
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
     setNumNumer(Math.ceil((numTotal * 60) / 1.2));
-    console.log("number: ", numMin, "/", numSec2, " total: ", numTotal);
-    console.log(Math.ceil((numTotal * 60) / 1.2));
   };
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = handleSubmit(
-    (data) => console.log("hoge"),
-    console.log("chika")
-    // calculator(Number(watch("numMin")), Number(watch("numSec")))
-  );
 
   calculator(inputNum, inputSec);
 
@@ -268,11 +255,6 @@ export default function Home() {
             >
               守る時間
             </Typography>
-            {/* register 関数の呼び出しにより、フォーム入力の要素を引数の名前で登録する */}
-            {/* <input
-              defaultValue=""
-              {...register("numMin", { required: true })}
-            /> */}
             <TextField
               error={inputError}
               // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
@@ -283,14 +265,7 @@ export default function Home() {
               label="Number"
               variant="outlined"
               helperText={inputRefNum?.current?.validationMessage}
-              onChange={handleChange2}
-              // id="outlined-number"
-              // InputLabelProps={{
-              //   shrink: true,
-              // }}
-              // onChange={numMinChange}
-              // value=""
-              // inputProps={...register("numMin", { required: true })}
+              onChange={handleChangeNum}
               sx={{
                 ml: 2,
               }}
@@ -314,36 +289,11 @@ export default function Home() {
               variant="outlined"
               helperText={inputRefSec?.current?.validationMessage}
               onChange={handleChangeSec}
-              // id="outlined-number"
-              // InputLabelProps={{
-              //   shrink: true,
-              // }}
-              // onChange={numMinChange}
-              // value=""
-              // inputProps={...register("numMin", { required: true })}
               sx={{
                 ml: 2,
               }}
             />
 
-            {/* <input
-              defaultValue=""
-              {...register("numSec", { required: true })}
-            /> */}
-
-            {/* <TextField
-              id="outlined-number"
-              label="Number"
-              type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={numSecChange}
-              value=""
-              sx={{
-                ml: 2,
-              }}
-            /> */}
             <Typography
               sx={{
                 alignSelf: "center",
