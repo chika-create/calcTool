@@ -63,7 +63,8 @@ export default function Home() {
   const inputRefSec = useRef(null);
   const [inputNum, setInputNum] = useState(false);
   const [inputSec, setInputSec] = useState(false);
-  const [inputError, setInputError] = useState(false);
+  const [inputNumError, setInputNumError] = useState(false);
+  const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -90,9 +91,9 @@ export default function Home() {
       const ref = inputRefNum.current;
       setInputNum(Number(inputRefNum.current.value));
       if (!ref.validity.valid) {
-        setInputError(true);
+        setInputNumError(true);
       } else {
-        setInputError(false);
+        setInputNumError(false);
       }
     }
   };
@@ -103,9 +104,9 @@ export default function Home() {
       const ref = inputRefSec.current;
       setInputSec(Number(inputRefSec.current.value));
       if (!ref.validity.valid) {
-        setInputError(true);
+        setInputSecError(true);
       } else {
-        setInputError(false);
+        setInputSecError(false);
       }
     }
   };
@@ -240,14 +241,14 @@ export default function Home() {
           傾国のおにぎり計算エリア
         </Typography>
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "auto 1fr auto 1fr auto",
-          }}
-        >
-          {/* handleSubmit はフォームの入力を確かめた上引数に渡した関数（onSubmit）を呼び出す */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+        {/* handleSubmit はフォームの入力を確かめた上引数に渡した関数（onSubmit）を呼び出す */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr auto 1fr auto",
+            }}
+          >
             <Typography
               sx={{
                 alignSelf: "center",
@@ -256,7 +257,7 @@ export default function Home() {
               守る時間
             </Typography>
             <TextField
-              error={inputError}
+              error={inputNumError}
               // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
               inputRef={inputRefNum}
               // defaultValue=""
@@ -279,7 +280,7 @@ export default function Home() {
               分
             </Typography>
             <TextField
-              error={inputError}
+              error={inputSecError}
               // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
               inputRef={inputRefSec}
               // defaultValue=""
@@ -302,10 +303,10 @@ export default function Home() {
             >
               秒
             </Typography>
-            {errors.numMin && <span>This field is required 1</span>}
-            {errors.numSec && <span>This field is required 2</span>}
-          </form>
-        </Box>
+          </Box>
+          {errors.numMin && <span>This field is required 1</span>}
+          {errors.numSec && <span>This field is required 2</span>}
+        </form>
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
         </Box>
