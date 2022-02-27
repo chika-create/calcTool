@@ -73,10 +73,6 @@ export default function Home() {
   const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
 
-  // 城種別の分岐
-  const inputRefCastle = useRef(null);
-  const [inputCastle, setInputCastle] = useState(false);
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -106,7 +102,6 @@ export default function Home() {
         setInputDeckError(false);
       }
     }
-    console.log(Number(inputRefDeck.current.value));
   };
 
   // 「分」入力の取得
@@ -135,13 +130,7 @@ export default function Home() {
     }
   };
 
-  // 城種別の取得（今度はここから150行目までを調整する。）
-  const handleChangeCastle = (event, castleNum) => {
-    if (event) {
-      setInputCastle(castleNum);
-    }
-  };
-
+  // 城種別の取得
   const [alignment, setAlignment] = React.useState<string | null>("left");
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
@@ -163,8 +152,6 @@ export default function Home() {
     numDeck = 60 / inputDeck;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
   };
-
-  // calculator(inputNum, inputSec, inputDeck);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -389,9 +376,6 @@ export default function Home() {
           sx={{
             ml: 2,
           }}
-          // inputRef={inputRefCastle}
-          // helperText={inputRefCastle?.current?.validationMessage}
-          // onChange={handleChangeCastle}
         >
           <ToggleButton
             value="2"
