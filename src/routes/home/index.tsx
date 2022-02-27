@@ -73,6 +73,10 @@ export default function Home() {
   const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
 
+  // 城種別の分岐
+  const inputRefCastle = useRef(null);
+  const [inputCastle, setInputCastle] = useState(false);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -130,6 +134,21 @@ export default function Home() {
     }
   };
 
+  // 城種別の取得（今度はここから150行目までを調整する。）
+  const handleChangeCastle = (event, castleNum) => {
+    if (event) {
+      setInputCastle(castleNum);
+    }
+  };
+
+  const [alignment, setAlignment] = React.useState<string | null>("left");
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null
+  ) => {
+    setAlignment(newAlignment);
+  };
+
   // 計算機能
   const calculator = (numMin, numSec2, numDeck2) => {
     let numDeck = 0;
@@ -140,6 +159,7 @@ export default function Home() {
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
+    console.log("hoge");
   };
 
   calculator(inputNum, inputSec, inputDeck);
@@ -253,18 +273,6 @@ export default function Home() {
                 ml: 2,
               }}
             />
-            {/* <TextField
-              id="outlined-number"
-              label="Number"
-              type="number"
-              defaultValue="38"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{
-                ml: 2,
-              }}
-            /> */}
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -372,15 +380,19 @@ export default function Home() {
         </Typography>
 
         <ToggleButtonGroup
-          value="test"
+          value={alignment}
+          onChange={handleAlignment}
           aria-label="text alignment"
           exclusive
           sx={{
             ml: 2,
           }}
+          inputRef={inputRefCastle}
+          helperText={inputRefCastle?.current?.validationMessage}
+          onChange={handleChangeCastle}
         >
           <ToggleButton
-            value="left"
+            value="1"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -389,7 +401,7 @@ export default function Home() {
             赤城
           </ToggleButton>
           <ToggleButton
-            value="left"
+            value="2"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -398,7 +410,7 @@ export default function Home() {
             青城
           </ToggleButton>
           <ToggleButton
-            value="left"
+            value="3"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
