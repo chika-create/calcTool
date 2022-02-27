@@ -106,6 +106,7 @@ export default function Home() {
         setInputDeckError(false);
       }
     }
+    console.log(Number(inputRefDeck.current.value));
   };
 
   // 「分」入力の取得
@@ -147,22 +148,23 @@ export default function Home() {
     newAlignment: string | null
   ) => {
     setAlignment(newAlignment);
+    setInputDeck(Number(newAlignment));
+    calculator(inputNum, inputSec);
   };
 
   // 計算機能
-  const calculator = (numMin, numSec2, numDeck2) => {
-    let numDeck = 0;
+  const calculator = (numMin, numSec2) => {
     let numSec = 0;
     let numTotal = 0;
+    let numDeck = 0;
 
-    numDeck = 60 / numDeck2;
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
+    numDeck = 60 / inputDeck;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
-    console.log("hoge");
   };
 
-  calculator(inputNum, inputSec, inputDeck);
+  // calculator(inputNum, inputSec, inputDeck);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -387,12 +389,12 @@ export default function Home() {
           sx={{
             ml: 2,
           }}
-          inputRef={inputRefCastle}
-          helperText={inputRefCastle?.current?.validationMessage}
-          onChange={handleChangeCastle}
+          // inputRef={inputRefCastle}
+          // helperText={inputRefCastle?.current?.validationMessage}
+          // onChange={handleChangeCastle}
         >
           <ToggleButton
-            value="1"
+            value="2"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -515,7 +517,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            1680
+            {numNumer * inputDeck}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
