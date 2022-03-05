@@ -130,19 +130,28 @@ export default function Home() {
     }
   };
 
-  // 計算機能
-  const calculator = (numMin, numSec2, numDeck2) => {
-    let numDeck = 0;
-    let numSec = 0;
-    let numTotal = 0;
-
-    numDeck = 60 / numDeck2;
-    numSec = numSec2 / 60;
-    numTotal = numMin + numSec;
-    setNumNumer(Math.ceil((numTotal * 60) / numDeck));
+  // 城種別の取得
+  const [alignment, setAlignment] = React.useState<string | null>("left");
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null
+  ) => {
+    setAlignment(newAlignment);
+    setInputDeck(Number(newAlignment));
+    calculator(inputNum, inputSec);
   };
 
-  calculator(inputNum, inputSec, inputDeck);
+  // 計算機能
+  const calculator = (numMin, numSec2) => {
+    let numSec = 0;
+    let numTotal = 0;
+    let numDeck = 0;
+
+    numSec = numSec2 / 60;
+    numTotal = numMin + numSec;
+    numDeck = 60 / inputDeck;
+    setNumNumer(Math.ceil((numTotal * 60) / numDeck));
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -253,18 +262,6 @@ export default function Home() {
                 ml: 2,
               }}
             />
-            {/* <TextField
-              id="outlined-number"
-              label="Number"
-              type="number"
-              defaultValue="38"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{
-                ml: 2,
-              }}
-            /> */}
           </Box>
         </AccordionDetails>
       </Accordion>
@@ -372,7 +369,8 @@ export default function Home() {
         </Typography>
 
         <ToggleButtonGroup
-          value="test"
+          value={alignment}
+          onChange={handleAlignment}
           aria-label="text alignment"
           exclusive
           sx={{
@@ -380,7 +378,7 @@ export default function Home() {
           }}
         >
           <ToggleButton
-            value="left"
+            value="2"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -389,7 +387,7 @@ export default function Home() {
             赤城
           </ToggleButton>
           <ToggleButton
-            value="left"
+            value="2"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -398,7 +396,7 @@ export default function Home() {
             青城
           </ToggleButton>
           <ToggleButton
-            value="left"
+            value="3"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -503,7 +501,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            1680
+            {numNumer * inputDeck}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
