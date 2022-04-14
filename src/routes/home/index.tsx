@@ -69,8 +69,6 @@ export default function Home() {
   // 計算機能用
   const inputRefNum = useRef(null);
   const inputRefSec = useRef(null);
-  // const [inputNum, setInputNum] = useState(false);
-  // const [inputSec, setInputSec] = useState(false);
   const [inputNumError, setInputNumError] = useState(false);
   const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
@@ -79,19 +77,6 @@ export default function Home() {
     setValue(newValue);
   };
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   formState: { errors },
-  // } = useForm();
-
-  // // form 動作
-  // const onSubmit = handleSubmit(
-  //   (data) => console.log("hoge"),
-  //   console.log("chika")
-  // );
 
   const {
     register,
@@ -105,9 +90,6 @@ export default function Home() {
     // バリデーションチェックOK！なときに行う処理を追加
     const minNum = Number(getValues(["minNum"]));
     const secNum = Number(getValues(["secNum"]));
-    // console.log(data, singleValue);
-    // console.log("object: ", data.minNum);
-    // calculator(5, 30);
     console.log(minNum, secNum);
     calculator(minNum, secNum);
   };
@@ -121,32 +103,6 @@ export default function Home() {
         setInputDeckError(true);
       } else {
         setInputDeckError(false);
-      }
-    }
-  };
-
-  // 「分」入力の取得
-  const handleChangeNum = () => {
-    if (inputRefNum.current) {
-      const ref = inputRefNum.current;
-      // setInputNum(Number(inputRefNum.current.value));
-      if (!ref.validity.valid) {
-        setInputNumError(true);
-      } else {
-        setInputNumError(false);
-      }
-    }
-  };
-
-  // 「秒」入力の取得
-  const handleChangeSec = () => {
-    if (inputRefSec.current) {
-      const ref = inputRefSec.current;
-      setInputSec(Number(inputRefSec.current.value));
-      if (!ref.validity.valid) {
-        setInputSecError(true);
-      } else {
-        setInputSecError(false);
       }
     }
   };
@@ -313,15 +269,12 @@ export default function Home() {
           </Typography>
           <TextField
             error={inputNumError}
-            // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
             inputRef={inputRefNum}
             // defaultValue=""
             id="outlined-basic"
             type="number"
-            // label="Number"
             variant="outlined"
             helperText={inputRefNum?.current?.validationMessage}
-            // onChange={handleChangeNum}
             label="minNum"
             {...register("minNum")}
             sx={{
@@ -338,16 +291,13 @@ export default function Home() {
           </Typography>
           <TextField
             error={inputSecError}
-            // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
             inputRef={inputRefSec}
             // defaultValue=""
-            // value=""
             id="outlined-basic"
             type="number"
             label="secNum"
             variant="outlined"
             helperText={inputRefSec?.current?.validationMessage}
-            // onChange={handleChangeSec}
             {...register("secNum")}
             sx={{
               ml: 2,
