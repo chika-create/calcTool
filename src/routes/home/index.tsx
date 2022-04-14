@@ -69,8 +69,8 @@ export default function Home() {
   // 計算機能用
   const inputRefNum = useRef(null);
   const inputRefSec = useRef(null);
-  const [inputNum, setInputNum] = useState(false);
-  const [inputSec, setInputSec] = useState(false);
+  // const [inputNum, setInputNum] = useState(false);
+  // const [inputSec, setInputSec] = useState(false);
   const [inputNumError, setInputNumError] = useState(false);
   const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
@@ -96,13 +96,20 @@ export default function Home() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm<SampleFormInput>();
 
   // フォーム送信時の処理
   const onSubmit: SubmitHandler<SampleFormInput> = (data) => {
     // バリデーションチェックOK！なときに行う処理を追加
-    console.log(data);
+    const minNum = Number(getValues(["minNum"]));
+    const secNum = Number(getValues(["secNum"]));
+    // console.log(data, singleValue);
+    // console.log("object: ", data.minNum);
+    // calculator(5, 30);
+    console.log(minNum, secNum);
+    calculator(minNum, secNum);
   };
 
   // 「デッキ数」入力の取得
@@ -122,7 +129,7 @@ export default function Home() {
   const handleChangeNum = () => {
     if (inputRefNum.current) {
       const ref = inputRefNum.current;
-      setInputNum(Number(inputRefNum.current.value));
+      // setInputNum(Number(inputRefNum.current.value));
       if (!ref.validity.valid) {
         setInputNumError(true);
       } else {
@@ -163,7 +170,8 @@ export default function Home() {
 
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
-    numDeck = 60 / inputDeck;
+    // numDeck = 60 / inputDeck;
+    numDeck = 60 / 38;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
   };
 
