@@ -90,22 +90,23 @@ export default function Home() {
     // バリデーションチェックOK！なときに行う処理を追加
     const minNum = Number(getValues(["minNum"]));
     const secNum = Number(getValues(["secNum"]));
-    console.log(minNum, secNum);
-    calculator(minNum, secNum);
+    const deckNum = Number(getValues(["deckNum"]));
+    calculator(minNum, secNum, deckNum);
+    // console.log(minNum, secNum);
   };
 
   // 「デッキ数」入力の取得
-  const handleChangeDeck = () => {
-    if (inputRefDeck.current) {
-      const ref = inputRefDeck.current;
-      setInputDeck(Number(inputRefDeck.current.value));
-      if (!ref.validity.valid) {
-        setInputDeckError(true);
-      } else {
-        setInputDeckError(false);
-      }
-    }
-  };
+  // const handleChangeDeck = () => {
+  //   if (inputRefDeck.current) {
+  //     const ref = inputRefDeck.current;
+  //     setInputDeck(Number(inputRefDeck.current.value));
+  //     if (!ref.validity.valid) {
+  //       setInputDeckError(true);
+  //     } else {
+  //       setInputDeckError(false);
+  //     }
+  //   }
+  // };
 
   // 城種別の取得
   const [alignment, setAlignment] = React.useState<string | null>("left");
@@ -119,7 +120,7 @@ export default function Home() {
   // };
 
   // 計算機能
-  const calculator = (numMin, numSec2) => {
+  const calculator = (numMin, numSec2, deckNum) => {
     let numSec = 0;
     let numTotal = 0;
     let numDeck = 0;
@@ -127,7 +128,7 @@ export default function Home() {
     numSec = numSec2 / 60;
     numTotal = numMin + numSec;
     // numDeck = 60 / inputDeck;
-    numDeck = 60 / 38;
+    numDeck = 60 / deckNum;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
   };
 
@@ -227,15 +228,16 @@ export default function Home() {
             </Typography>
             <TextField
               error={inputDeckError}
-              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
               inputRef={inputRefDeck}
               // defaultValue=""
               id="outlined-basic"
               type="number"
-              label="Number"
+              // label="Number"
               variant="outlined"
               helperText={inputRefDeck?.current?.validationMessage}
-              onChange={handleChangeDeck}
+              // onChange={handleChangeDeck}
+              label="deckNum"
+              {...register("deckNum")}
               sx={{
                 ml: 2,
               }}
