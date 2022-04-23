@@ -92,46 +92,18 @@ export default function Home() {
     const minNum = Number(getValues(["minNum"]));
     const secNum = Number(getValues(["secNum"]));
     const deckNum = Number(getValues(["deckNum"]));
-    // const alignmentNum = Number(getValues(["alignmentNum"]));
-    // setInputAlignmentNum(Number(getValues(["alignmentNum"])));
 
     calculator(minNum, secNum, deckNum);
     console.log(data);
-    console.log("toggle: ", inputAlignmentNum);
   };
 
-  // const [alignment, setAlignment] = React.useState("web");
-
+  // 城種別ごとのデッキ数の取得
   const handleChange2 = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
     setInputAlignmentNum(newAlignment);
   };
-
-  // 「デッキ数」入力の取得
-  // const handleChangeDeck = () => {
-  //   if (inputRefDeck.current) {
-  //     const ref = inputRefDeck.current;
-  //     setInputDeck(Number(inputRefDeck.current.value));
-  //     if (!ref.validity.valid) {
-  //       setInputDeckError(true);
-  //     } else {
-  //       setInputDeckError(false);
-  //     }
-  //   }
-  // };
-
-  // 城種別の取得
-  // const [alignment, setAlignment] = React.useState<string | null>("left");
-  // const handleAlignment = (
-  //   event: React.MouseEvent<HTMLElement>,
-  //   newAlignment: string | null
-  // ) => {
-  //   setAlignment(newAlignment);
-  //   setInputDeck(Number(newAlignment));
-  //   calculator(inputNum, inputSec);
-  // };
 
   // 計算機能
   const calculator = (numMin, numSec2, deckNum) => {
@@ -184,11 +156,8 @@ export default function Home() {
             </Typography>
             <ToggleButtonGroup
               label="inputAlignmentNum"
-              // label="alignment"
               value={inputAlignmentNum}
               onChange={handleChange2}
-              // {...register("alignmentNum")}
-              // aria-label="text alignment"
               exclusive
               sx={{
                 ml: 2,
@@ -254,7 +223,6 @@ export default function Home() {
               // label="Number"
               variant="outlined"
               helperText={inputRefDeck?.current?.validationMessage}
-              // onChange={handleChangeDeck}
               label="deckNum"
               {...register("deckNum")}
               sx={{
@@ -363,8 +331,6 @@ export default function Home() {
         </Typography>
 
         <ToggleButtonGroup
-          // value={alignment}
-          // handleAlignment
           onChange={handleSubmit(onSubmit)}
           aria-label="text alignment"
           exclusive
@@ -400,23 +366,6 @@ export default function Home() {
             金城
           </ToggleButton>
         </ToggleButtonGroup>
-      </Box>
-
-      {/* <Button
-        color="primary"
-        variant="contained"
-        size="large"
-        onClick={handleSubmit(onSubmit)}
-      >
-        作成
-      </Button> */}
-
-      <Box
-        sx={{
-          textAlign: "center",
-        }}
-      >
-        {/* <Button variant="contained">おにぎり計算</Button> */}
       </Box>
 
       <Box
