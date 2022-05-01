@@ -65,7 +65,13 @@ export default function Home() {
   const inputRefDeck = useRef(null);
   const [inputDeck, setInputDeck] = useState(false);
   const [inputDeckError, setInputDeckError] = useState(false);
+
+  // 城種別ごとのデッキ数
   const [inputAlignmentNum, setInputAlignmentNum] = useState(false);
+  const [alignmentNumBlue, setAlignmentNumBlue] = useState(false);
+
+  // どの城種別を選択したか
+  const [castleKinds, setCastleKinds] = useState(false);
 
   // 計算機能用
   const inputRefNum = useRef(null);
@@ -87,15 +93,10 @@ export default function Home() {
   } = useForm<SampleFormInput>();
 
   // フォーム送信時の処理
-  const onSubmit: SubmitHandler<SampleFormInput> = (data) => {
-    // バリデーションチェックOK！なときに行う処理を追加
-    const minNum = Number(getValues(["minNum"]));
-    const secNum = Number(getValues(["secNum"]));
-    const deckNum = Number(getValues(["deckNum"]));
-
-    calculator(minNum, secNum, deckNum);
-    console.log(data);
-  };
+  // const onSubmit: SubmitHandler<SampleFormInput> = (data, thisvalue) => {
+  //   // バリデーションチェックOK！なときに行う処理を追加
+  //   //    calculator(minNum, secNum, deckNum);
+  // };
 
   // 城種別ごとのデッキ数の取得
   const handleChange2 = (
@@ -105,15 +106,34 @@ export default function Home() {
     setInputAlignmentNum(newAlignment);
   };
 
+  const alignmentChangeBlue = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignmentNumBlue(newAlignment);
+  };
+
+  // どの城種別で計算するか
+  const castleKindsHoge = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setCastleKinds(newAlignment);
+    calculator();
+  };
+
   // 計算機能
-  const calculator = (numMin, numSec2, deckNum) => {
+  const calculator = () => {
+    const minNum = Number(getValues(["minNum"]));
+    const secNum = Number(getValues(["secNum"]));
+    const deckNum = Number(getValues(["deckNum"]));
+
     let numSec = 0;
     let numTotal = 0;
     let numDeck = 0;
 
-    numSec = numSec2 / 60;
-    numTotal = numMin + numSec;
-    // numDeck = 60 / inputDeck;
+    numSec = secNum / 60;
+    numTotal = minNum + numSec;
     numDeck = 60 / deckNum;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
   };
@@ -158,6 +178,67 @@ export default function Home() {
               label="inputAlignmentNum"
               value={inputAlignmentNum}
               onChange={handleChange2}
+              exclusive
+              sx={{
+                ml: 2,
+              }}
+            >
+              <ToggleButton
+                value="1"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                1
+              </ToggleButton>
+              <ToggleButton
+                value="2"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                2
+              </ToggleButton>
+              <ToggleButton
+                value="3"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                3
+              </ToggleButton>
+              <ToggleButton
+                value="4"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                4
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              mb: 3,
+            }}
+          >
+            <Typography
+              sx={{
+                alignSelf: "center",
+              }}
+            >
+              青城
+            </Typography>
+            <ToggleButtonGroup
+              label="alignmentNumBlue"
+              value={alignmentNumBlue}
+              onChange={alignmentChangeBlue}
               exclusive
               sx={{
                 ml: 2,
@@ -331,7 +412,10 @@ export default function Home() {
         </Typography>
 
         <ToggleButtonGroup
-          onChange={handleSubmit(onSubmit)}
+          // label="castleKinds"
+          value={castleKinds}
+          onChange={castleKindsHoge}
+          // onChange={handleSubmit(onSubmit)}
           aria-label="text alignment"
           exclusive
           sx={{
@@ -339,7 +423,7 @@ export default function Home() {
           }}
         >
           <ToggleButton
-            value="2"
+            value="red"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -348,7 +432,7 @@ export default function Home() {
             赤城
           </ToggleButton>
           <ToggleButton
-            value="2"
+            value="blue"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -357,7 +441,7 @@ export default function Home() {
             青城
           </ToggleButton>
           <ToggleButton
-            value="3"
+            value="gold"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
