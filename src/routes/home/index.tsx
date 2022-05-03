@@ -14,7 +14,6 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-// import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -63,15 +62,10 @@ export default function Home() {
 
   // デッキ数計算用
   const inputRefDeck = useRef(null);
-  // const [inputDeck, setInputDeck] = useState(false);
-  // const [inputDeckError, setInputDeckError] = useState(false);
 
   // 城種別ごとのデッキ数
   const [alignmentRed, setAlignmentRed] = useState(false);
   const [alignmentBlue, setAlignmentBlue] = useState(false);
-
-  // どの城種別を選択したか
-  // const [castleKindsStr, setCastleKindsStr] = useState(false);
 
   // 計算機能用
   const inputRefNum = useRef(null);
@@ -91,12 +85,6 @@ export default function Home() {
     getValues,
     formState: { errors },
   } = useForm<calcFormInput>();
-
-  // フォーム送信時の処理
-  // const onSubmit: SubmitHandler<calcFormInput> = (data, thisvalue) => {
-  //   // バリデーションチェックOK！なときに行う処理を追加
-  //   calculator(minNum, secNum, deckNum);
-  // };
 
   // 城種別ごとのデッキ数の取得
   const castleChangeRed = (
@@ -123,7 +111,7 @@ export default function Home() {
     calculator();
   };
 
-  // どの城種別を選択したかによって、デッキ数を取得★次回はこちらをロジックに組み込む！
+  // どの城種別を選択したかによって、デッキ数を取得
   const castleKindsSwitch = (item) => {
     switch (item) {
       case "blue":
@@ -142,10 +130,7 @@ export default function Home() {
     const minNum = Number(getValues(["minNum"]));
     let secNum = Number(getValues(["secNum"]));
     let deckNum = Number(getValues(["deckNum"]));
-
-    // let numSec = 0;
     let numTotal = 0;
-    // let numDeck = 0;
 
     secNum = secNum / 60;
     numTotal = minNum + secNum;
@@ -430,7 +415,6 @@ export default function Home() {
           // label="castleKinds"
           value={castleKinds}
           onChange={castleKinds}
-          // onChange={handleSubmit(onSubmit)}
           aria-label="text alignment"
           exclusive
           sx={{
