@@ -64,8 +64,10 @@ export default function Home() {
   const inputRefDeck = useRef(null);
 
   // 城種別ごとのデッキ数
+  const [alignmentNum, setAlignmentNum] = useState(false);
   const [alignmentRed, setAlignmentRed] = useState(false);
   const [alignmentBlue, setAlignmentBlue] = useState(false);
+  const [alignmentGold, setAlignmentGold] = useState(false);
 
   // 計算機能用
   const inputRefNum = useRef(null);
@@ -101,12 +103,18 @@ export default function Home() {
     setAlignmentBlue(newAlignment);
   };
 
+  const castleChangeGold = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignmentGold(newAlignment);
+  };
+
   // どの城種別で計算するか
   const castleKinds = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
-    // setCastleKindsStr(newAlignment);
     castleKindsSwitch(newAlignment);
     calculator();
   };
@@ -115,13 +123,13 @@ export default function Home() {
   const castleKindsSwitch = (item) => {
     switch (item) {
       case "blue":
-        console.log("chikaBlue");
+        setAlignmentNum(alignmentBlue);
         break;
       case "gold":
-        console.log("chikaGold");
+        setAlignmentNum(alignmentGold);
         break;
       default:
-        console.log("chikaDefault_Red");
+        setAlignmentNum(alignmentRed);
     }
   };
 
@@ -285,6 +293,67 @@ export default function Home() {
           <Box
             sx={{
               display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              mb: 3,
+            }}
+          >
+            <Typography
+              sx={{
+                alignSelf: "center",
+              }}
+            >
+              青城
+            </Typography>
+            <ToggleButtonGroup
+              label="alignmentGold"
+              value={alignmentGold}
+              onChange={castleChangeGold}
+              exclusive
+              sx={{
+                ml: 2,
+              }}
+            >
+              <ToggleButton
+                value="1"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                1
+              </ToggleButton>
+              <ToggleButton
+                value="2"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                2
+              </ToggleButton>
+              <ToggleButton
+                value="3"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                3
+              </ToggleButton>
+              <ToggleButton
+                value="4"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                4
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
               gridTemplateColumns: "repeat(2, auto 1fr)",
             }}
           >
@@ -385,9 +454,9 @@ export default function Home() {
         </Box>
         {errors.numMin && <span>This field is required 1</span>}
         {errors.numSec && <span>This field is required 2</span>}
-        <Box>
+        {/* <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
-        </Box>
+        </Box> */}
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <Typography>群雄のおにぎり計算エリア</Typography>
@@ -537,7 +606,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            {numNumer * alignmentRed}
+            {numNumer * alignmentNum}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
