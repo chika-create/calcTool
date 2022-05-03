@@ -52,9 +52,11 @@ function a11yProps(index: number) {
   };
 }
 
-type Input = {
-  example: number;
-};
+// フォームの型
+interface SampleFormInput {
+  minNum: number;
+  secNum: number;
+}
 
 export default function Home() {
   const [value, setValue] = React.useState(0);
@@ -64,11 +66,16 @@ export default function Home() {
   const [inputDeck, setInputDeck] = useState(false);
   const [inputDeckError, setInputDeckError] = useState(false);
 
+  // 城種別ごとのデッキ数
+  const [inputAlignmentNum, setInputAlignmentNum] = useState(false);
+  const [alignmentNumBlue, setAlignmentNumBlue] = useState(false);
+
+  // どの城種別を選択したか
+  const [castleKinds, setCastleKinds] = useState(false);
+
   // 計算機能用
   const inputRefNum = useRef(null);
   const inputRefSec = useRef(null);
-  const [inputNum, setInputNum] = useState(false);
-  const [inputSec, setInputSec] = useState(false);
   const [inputNumError, setInputNumError] = useState(false);
   const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
@@ -81,75 +88,53 @@ export default function Home() {
   const {
     register,
     handleSubmit,
-    watch,
+    getValues,
     formState: { errors },
-  } = useForm();
+  } = useForm<SampleFormInput>();
 
-  // form 動作
-  const onSubmit = handleSubmit(
-    (data) => console.log("hoge"),
-    console.log("chika")
-  );
+  // フォーム送信時の処理
+  // const onSubmit: SubmitHandler<SampleFormInput> = (data, thisvalue) => {
+  //   // バリデーションチェックOK！なときに行う処理を追加
+  //   //    calculator(minNum, secNum, deckNum);
+  // };
 
-  // 「デッキ数」入力の取得
-  const handleChangeDeck = () => {
-    if (inputRefDeck.current) {
-      const ref = inputRefDeck.current;
-      setInputDeck(Number(inputRefDeck.current.value));
-      if (!ref.validity.valid) {
-        setInputDeckError(true);
-      } else {
-        setInputDeckError(false);
-      }
-    }
-  };
-
-  // 「分」入力の取得
-  const handleChangeNum = () => {
-    if (inputRefNum.current) {
-      const ref = inputRefNum.current;
-      setInputNum(Number(inputRefNum.current.value));
-      if (!ref.validity.valid) {
-        setInputNumError(true);
-      } else {
-        setInputNumError(false);
-      }
-    }
-  };
-
-  // 「秒」入力の取得
-  const handleChangeSec = () => {
-    if (inputRefSec.current) {
-      const ref = inputRefSec.current;
-      setInputSec(Number(inputRefSec.current.value));
-      if (!ref.validity.valid) {
-        setInputSecError(true);
-      } else {
-        setInputSecError(false);
-      }
-    }
-  };
-
-  // 城種別の取得
-  const [alignment, setAlignment] = React.useState<string | null>("left");
-  const handleAlignment = (
+  // 城種別ごとのデッキ数の取得
+  const handleChange2 = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
+    newAlignment: string
   ) => {
-    setAlignment(newAlignment);
-    setInputDeck(Number(newAlignment));
-    calculator(inputNum, inputSec);
+    setInputAlignmentNum(newAlignment);
+  };
+
+  const alignmentChangeBlue = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignmentNumBlue(newAlignment);
+  };
+
+  // どの城種別で計算するか
+  const castleKindsHoge = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setCastleKinds(newAlignment);
+    calculator();
   };
 
   // 計算機能
-  const calculator = (numMin, numSec2) => {
+  const calculator = () => {
+    const minNum = Number(getValues(["minNum"]));
+    const secNum = Number(getValues(["secNum"]));
+    const deckNum = Number(getValues(["deckNum"]));
+
     let numSec = 0;
     let numTotal = 0;
     let numDeck = 0;
 
-    numSec = numSec2 / 60;
-    numTotal = numMin + numSec;
-    numDeck = 60 / inputDeck;
+    numSec = secNum / 60;
+    numTotal = minNum + numSec;
+    numDeck = 60 / deckNum;
     setNumNumer(Math.ceil((numTotal * 60) / numDeck));
   };
 
@@ -190,7 +175,70 @@ export default function Home() {
               赤城
             </Typography>
             <ToggleButtonGroup
-              aria-label="text alignment"
+              label="inputAlignmentNum"
+              value={inputAlignmentNum}
+              onChange={handleChange2}
+              exclusive
+              sx={{
+                ml: 2,
+              }}
+            >
+              <ToggleButton
+                value="1"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                1
+              </ToggleButton>
+              <ToggleButton
+                value="2"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                2
+              </ToggleButton>
+              <ToggleButton
+                value="3"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                3
+              </ToggleButton>
+              <ToggleButton
+                value="4"
+                aria-label="left aligned"
+                sx={{
+                  width: 1 / 4,
+                }}
+              >
+                4
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              mb: 3,
+            }}
+          >
+            <Typography
+              sx={{
+                alignSelf: "center",
+              }}
+            >
+              青城
+            </Typography>
+            <ToggleButtonGroup
+              label="alignmentNumBlue"
+              value={alignmentNumBlue}
+              onChange={alignmentChangeBlue}
               exclusive
               sx={{
                 ml: 2,
@@ -249,15 +297,15 @@ export default function Home() {
             </Typography>
             <TextField
               error={inputDeckError}
-              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
               inputRef={inputRefDeck}
               // defaultValue=""
               id="outlined-basic"
               type="number"
-              label="Number"
+              // label="Number"
               variant="outlined"
               helperText={inputRefDeck?.current?.validationMessage}
-              onChange={handleChangeDeck}
+              label="deckNum"
+              {...register("deckNum")}
               sx={{
                 ml: 2,
               }}
@@ -276,72 +324,67 @@ export default function Home() {
         </Typography>
 
         {/* handleSubmit はフォームの入力を確かめた上引数に渡した関数（onSubmit）を呼び出す */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "auto 1fr auto 1fr auto",
+          }}
+        >
+          <Typography
             sx={{
-              display: "grid",
-              gridTemplateColumns: "auto 1fr auto 1fr auto",
+              alignSelf: "center",
             }}
           >
-            <Typography
-              sx={{
-                alignSelf: "center",
-              }}
-            >
-              守る時間
-            </Typography>
-            <TextField
-              error={inputNumError}
-              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
-              inputRef={inputRefNum}
-              // defaultValue=""
-              id="outlined-basic"
-              type="number"
-              label="Number"
-              variant="outlined"
-              helperText={inputRefNum?.current?.validationMessage}
-              onChange={handleChangeNum}
-              sx={{
-                ml: 2,
-              }}
-            />
-            <Typography
-              sx={{
-                alignSelf: "center",
-                ml: 2,
-              }}
-            >
-              分
-            </Typography>
-            <TextField
-              error={inputSecError}
-              // inputProps={{ maxLength: 4, pattern: "^[a-zA-Z0-9_]+$" }}
-              inputRef={inputRefSec}
-              // defaultValue=""
-              // value=""
-              id="outlined-basic"
-              type="number"
-              label="Number"
-              variant="outlined"
-              helperText={inputRefSec?.current?.validationMessage}
-              onChange={handleChangeSec}
-              sx={{
-                ml: 2,
-              }}
-            />
+            守る時間
+          </Typography>
+          <TextField
+            error={inputNumError}
+            inputRef={inputRefNum}
+            // defaultValue=""
+            id="outlined-basic"
+            type="number"
+            variant="outlined"
+            helperText={inputRefNum?.current?.validationMessage}
+            label="minNum"
+            {...register("minNum")}
+            sx={{
+              ml: 2,
+            }}
+          />
+          <Typography
+            sx={{
+              alignSelf: "center",
+              ml: 2,
+            }}
+          >
+            分
+          </Typography>
+          <TextField
+            error={inputSecError}
+            inputRef={inputRefSec}
+            // defaultValue=""
+            id="outlined-basic"
+            type="number"
+            label="secNum"
+            variant="outlined"
+            helperText={inputRefSec?.current?.validationMessage}
+            {...register("secNum")}
+            sx={{
+              ml: 2,
+            }}
+          />
 
-            <Typography
-              sx={{
-                alignSelf: "center",
-                ml: 2,
-              }}
-            >
-              秒
-            </Typography>
-          </Box>
-          {errors.numMin && <span>This field is required 1</span>}
-          {errors.numSec && <span>This field is required 2</span>}
-        </form>
+          <Typography
+            sx={{
+              alignSelf: "center",
+              ml: 2,
+            }}
+          >
+            秒
+          </Typography>
+        </Box>
+        {errors.numMin && <span>This field is required 1</span>}
+        {errors.numSec && <span>This field is required 2</span>}
         <Box>
           <FormControlLabel control={<Checkbox />} label="今から終了まで" />
         </Box>
@@ -369,8 +412,10 @@ export default function Home() {
         </Typography>
 
         <ToggleButtonGroup
-          value={alignment}
-          onChange={handleAlignment}
+          // label="castleKinds"
+          value={castleKinds}
+          onChange={castleKindsHoge}
+          // onChange={handleSubmit(onSubmit)}
           aria-label="text alignment"
           exclusive
           sx={{
@@ -378,7 +423,7 @@ export default function Home() {
           }}
         >
           <ToggleButton
-            value="2"
+            value="red"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -387,7 +432,7 @@ export default function Home() {
             赤城
           </ToggleButton>
           <ToggleButton
-            value="2"
+            value="blue"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -396,7 +441,7 @@ export default function Home() {
             青城
           </ToggleButton>
           <ToggleButton
-            value="3"
+            value="gold"
             aria-label="left aligned"
             sx={{
               width: 1 / 3,
@@ -405,14 +450,6 @@ export default function Home() {
             金城
           </ToggleButton>
         </ToggleButtonGroup>
-      </Box>
-
-      <Box
-        sx={{
-          textAlign: "center",
-        }}
-      >
-        {/* <Button variant="contained">おにぎり計算</Button> */}
       </Box>
 
       <Box
@@ -501,7 +538,7 @@ export default function Home() {
               fontSize: 30,
             }}
           >
-            {numNumer * inputDeck}
+            {numNumer * inputAlignmentNum}
           </Typography>
           <Tooltip title="ContentCopyIcon">
             <IconButton>
