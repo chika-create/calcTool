@@ -24,9 +24,8 @@ interface TabPanelProps {
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: TabPanelProps): object {
   const { children, value, index, ...other } = props;
-
   return (
     <Box
       role="tabpanel"
@@ -44,7 +43,7 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function tabMenu(index: number) {
+function tabMenu(index: number): object {
   return {
     id: `tab-${index}`,
     "aria-controls": `tabpanel-${index}`,
@@ -57,7 +56,7 @@ interface calcFormInput {
   secNum: number;
 }
 
-export default function Home() {
+export default function Home(): object {
   const [tabValue, setTabValue] = React.useState(0);
 
   // デッキ数計算用
@@ -76,14 +75,14 @@ export default function Home() {
   const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
 
-  const tabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const tabChange = (newValue: number): number => {
     setTabValue(newValue);
   };
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     getValues,
     formState: { errors },
   } = useForm<calcFormInput>();
@@ -91,32 +90,23 @@ export default function Home() {
   // 城種別ごとのデッキ数の取得
   const castleChangeRed = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
+    newAlignment: boolean
+  ): any => {
     setAlignmentRed(newAlignment);
   };
 
   const castleChangeBlue = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
+    newAlignment: boolean
+  ): void => {
     setAlignmentBlue(newAlignment);
   };
 
   const castleChangeGold = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
+    newAlignment: boolean
+  ): void => {
     setAlignmentGold(newAlignment);
-  };
-
-  // どの城種別で計算するか
-  const castleKinds = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
-  ) => {
-    castleKindsSwitch(newAlignment);
-    calculator();
   };
 
   // どの城種別を選択したかによって、デッキ数を取得
@@ -134,16 +124,25 @@ export default function Home() {
   };
 
   // 計算機能
-  const calculator = () => {
+  const calculator = (): void => {
     const minNum = Number(getValues(["minNum"]));
     let secNum = Number(getValues(["secNum"]));
     let deckNum = Number(getValues(["deckNum"]));
-    let numTotal = 0;
+    let totalNum = 0;
 
     secNum = secNum / 60;
-    numTotal = minNum + secNum;
+    totalNum = minNum + secNum;
     deckNum = 60 / deckNum;
-    setNumNumer(Math.ceil((numTotal * 60) / deckNum));
+    setNumNumer(Math.ceil((totalNum * 60) / deckNum));
+  };
+
+  // どの城種別で計算するか
+  const castleKinds = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ): void => {
+    castleKindsSwitch(newAlignment);
+    calculator();
   };
 
   return (
@@ -372,7 +371,7 @@ export default function Home() {
               type="number"
               // label="Number"
               variant="outlined"
-              helperText={inputRefDeck?.current?.validationMessage}
+              // helperText={inputRefDeck?.current?.validationMessage}
               label="deckNum"
               {...register("deckNum")}
               sx={{
@@ -413,7 +412,7 @@ export default function Home() {
             id="outlined-basic"
             type="number"
             variant="outlined"
-            helperText={inputRefNum?.current?.validationMessage}
+            // helperText={inputRefNum?.current?.validationMessage}
             label="minNum"
             {...register("minNum")}
             sx={{
@@ -436,7 +435,7 @@ export default function Home() {
             type="number"
             label="secNum"
             variant="outlined"
-            helperText={inputRefSec?.current?.validationMessage}
+            // helperText={inputRefSec?.current?.validationMessage}
             {...register("secNum")}
             sx={{
               ml: 2,
@@ -452,11 +451,14 @@ export default function Home() {
             秒
           </Typography>
         </Box>
-        {errors.numMin && <span>This field is required 1</span>}
-        {errors.numSec && <span>This field is required 2</span>}
-        {/* <Box>
-          <FormControlLabel control={<Checkbox />} label="今から終了まで" />
-        </Box> */}
+        {/* {errors.numMin && <span>This field is required 1</span>}
+        {errors.numSec && <span>This field is required 2</span>} */}
+        <Box>
+          <FormControlLabel
+            control={<Checkbox />}
+            label="今から終了まで（まだ使えません）"
+          />
+        </Box>
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
         <Typography>群雄のおにぎり計算エリア</Typography>
