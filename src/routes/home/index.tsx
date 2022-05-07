@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { h } from "preact";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -18,13 +18,14 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
+// タブ切り替え管理
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-function TabPanel(props: TabPanelProps): object {
+function TabPanel(props: TabPanelProps): any {
   const { children, value, index, ...other } = props;
   return (
     <Box
@@ -51,13 +52,22 @@ function tabMenu(index: number): object {
 }
 
 // フォームの型
-interface calcFormInput {
+interface CalcFormInput {
   minNum: number;
   secNum: number;
+  deckNum: number;
 }
 
 export default function Home(): object {
+  // タブ管理
   const [tabValue, setTabValue] = React.useState(0);
+  const tabChange = (event: React.SyntheticEvent, newValue: number): void => {
+    setTabValue(newValue);
+  };
+  // const tabChange = (newValue: number): number => {
+  //   setTabValue(newValue);
+  // };
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   // デッキ数計算用
   const inputRefDeck = useRef(null);
@@ -71,46 +81,41 @@ export default function Home(): object {
   // 計算機能用
   const inputRefNum = useRef(null);
   const inputRefSec = useRef(null);
-  const [inputNumError, setInputNumError] = useState(false);
-  const [inputSecError, setInputSecError] = useState(false);
+  // const [inputNumError, setInputNumError] = useState(false);
+  // const [inputSecError, setInputSecError] = useState(false);
   const [numNumer, setNumNumer] = useState(0);
-
-  const tabChange = (newValue: number): number => {
-    setTabValue(newValue);
-  };
-  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
   const {
     register,
     // handleSubmit,
     getValues,
-    formState: { errors },
-  } = useForm<calcFormInput>();
+    // formState: { errors },
+  } = useForm<CalcFormInput>();
 
   // 城種別ごとのデッキ数の取得
   const castleChangeRed = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: boolean
-  ): any => {
+    newAlignment: number
+  ): void => {
     setAlignmentRed(newAlignment);
   };
 
   const castleChangeBlue = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: boolean
+    newAlignment: number
   ): void => {
     setAlignmentBlue(newAlignment);
   };
 
   const castleChangeGold = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: boolean
+    newAlignment: number
   ): void => {
     setAlignmentGold(newAlignment);
   };
 
   // どの城種別を選択したかによって、デッキ数を取得
-  const castleKindsSwitch = (item) => {
+  const castleKindsSwitch = (item: string): void => {
     switch (item) {
       case "blue":
         setAlignmentNum(alignmentBlue);
@@ -154,7 +159,7 @@ export default function Home(): object {
           aria-label="basic tabs example"
         >
           <Tab label="傾国" {...tabMenu(0)} />
-          <Tab label="群雄" {...tabMenu(1)} disabled />
+          <Tab label="群雄・天下" {...tabMenu(1)} disabled />
           <Tab label="おにぎり表" {...tabMenu(2)} />
         </Tabs>
       </Box>
@@ -182,7 +187,7 @@ export default function Home(): object {
               赤城
             </Typography>
             <ToggleButtonGroup
-              label="alignmentRed"
+              // label="alignmentRed"
               value={alignmentRed}
               onChange={castleChangeRed}
               exclusive
@@ -243,7 +248,7 @@ export default function Home(): object {
               青城
             </Typography>
             <ToggleButtonGroup
-              label="alignmentBlue"
+              // label="alignmentBlue"
               value={alignmentBlue}
               onChange={castleChangeBlue}
               exclusive
@@ -304,7 +309,7 @@ export default function Home(): object {
               青城
             </Typography>
             <ToggleButtonGroup
-              label="alignmentGold"
+              // label="alignmentGold"
               value={alignmentGold}
               onChange={castleChangeGold}
               exclusive
@@ -372,7 +377,7 @@ export default function Home(): object {
               // label="Number"
               variant="outlined"
               // helperText={inputRefDeck?.current?.validationMessage}
-              label="deckNum"
+              // label="deckNum"
               {...register("deckNum")}
               sx={{
                 ml: 2,
@@ -406,7 +411,7 @@ export default function Home(): object {
             守る時間
           </Typography>
           <TextField
-            error={inputNumError}
+            // error={inputNumError}
             inputRef={inputRefNum}
             // defaultValue=""
             id="outlined-basic"
@@ -428,7 +433,7 @@ export default function Home(): object {
             分
           </Typography>
           <TextField
-            error={inputSecError}
+            // error={inputSecError}
             inputRef={inputRefSec}
             // defaultValue=""
             id="outlined-basic"
@@ -484,7 +489,7 @@ export default function Home(): object {
 
         <ToggleButtonGroup
           // label="castleKinds"
-          value={castleKinds}
+          // value={castleKinds}
           onChange={castleKinds}
           aria-label="text alignment"
           exclusive
