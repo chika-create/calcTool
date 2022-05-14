@@ -73,10 +73,10 @@ export default function Home(): object {
   const inputRefDeck = useRef(null);
 
   // 城種別ごとのデッキ数
-  const [alignmentNum, setAlignmentNum] = useState(false);
-  const [alignmentRed, setAlignmentRed] = useState(false);
-  const [alignmentBlue, setAlignmentBlue] = useState(false);
-  const [alignmentGold, setAlignmentGold] = useState(false);
+  const [alignmentNum, setAlignmentNum] = useState(0);
+  const [alignmentRed, setAlignmentRed] = useState(0);
+  const [alignmentBlue, setAlignmentBlue] = useState(0);
+  const [alignmentGold, setAlignmentGold] = useState(0);
 
   // 計算機能用
   const inputRefNum = useRef(null);
